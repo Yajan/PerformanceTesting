@@ -5,8 +5,8 @@ jmeterPath:
   - C:\Users\Yajana\apache-jmeter-3.3\apache-jmeter-3.3\bin
 
 scripts:
-  - chrome: C:\Users\Yajana\apache-jmeter-3.3\apache-jmeter-3.3\Scripts\Chrome
-  - firefox: C:\Users\Yajana\apache-jmeter-3.3\apache-jmeter-3.3\Scripts\Firefox
+  - \Scripts\Chrome
+  - \Scripts\Firefox
 
 reports:
   - C:\Users\Yajana\apache-jmeter-3.3\apache-jmeter-3.3\Reports
