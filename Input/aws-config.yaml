@@ -1,0 +1,9 @@
+aws-credencials:
+  - access-id:
+  - access-key:
+  - region-name:
+  - output-format:
+
+ami:
+  -image-id:
+  -security-group:

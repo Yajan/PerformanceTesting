@@ -1,0 +1,24 @@
+#random:
+# - C:\Users\admin\PycharmProjects\BlazeMeterAPI\JMXfiles
+
+scripts:
+  - SanityLoginF.jmx
+  - C:\Users\admin\Downloads\URLupload.jmx
+
+url:
+  - https://app.mammoth.io/#/login
+
+browsers:
+  - chrome
+  - firefox
+
+execution:
+  - concurrency: 10
+  - ramp-up: 1
+  - iterations: 1
+
+time-out:
+  - 5m
+
+instance:
+  - 1
