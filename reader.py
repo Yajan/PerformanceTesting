@@ -6,7 +6,7 @@ import os
 import csv
 from datetime import datetime
 from threading import Timer
-
+import fileinput, string, sys
 
 global jmeterPath
 global chrome_script_path
@@ -26,7 +26,7 @@ def filecreation():
     return reportdir
 
 
-with open("Input/config.yaml", 'r') as stream:
+with open("config.yaml", 'r') as stream:
     try:
         content = yaml.load(stream)
         #print(content)
@@ -67,14 +67,14 @@ def jmeter_exection(iteration, rampup, concurrency, filepath):
     os.chdir(jmeterPath)
     reportdir = filecreation()
     t.start()
-    #os.system("jmeter.bat -n -t"+ filepath+" -l "+reportdir+"\log.csv -e -o "+reportdir+"\HTML -Jusers="+str(concurrency)+" -JrampUp="+str(rampup)+" -Jcount="+str(iteration))
+    os.system("jmeter.bat -n -t"+ filepath+" -l "+reportdir+"\log.csv -e -o "+reportdir+"\HTML -R -Gusers="+str(concurrency)+" -GrampUp="+str(rampup)+" -Gcount="+str(iteration))
     print("executed")
 
 
 def create_instance(instance_number):
     print("Need to create "+str(instance_number)+" Instance(s)")
 
-    with open("Input/aws-config.yaml", 'r') as stream:
+    with open("aws-config.yaml", 'r') as stream:
         try:
             content = yaml.load(stream)
             print(content)
@@ -86,7 +86,25 @@ def create_instance(instance_number):
             print(exc)
 
 
-with open("Input/input.yaml", 'r') as stream:
+def read_n_write_ip():
+    with open(jmeterPath+"/ipconfig.txt", 'r') as stream:
+        try:
+            content = yaml.load(stream)
+            print(content)
+
+        except yaml.YAMLError as exc:
+            print(exc)
+
+    text = "remote_hosts="
+    x = fileinput.input(files=jmeterPath+"\jmeter.properties",inplace=1)
+    for line in x:
+        if text in line:
+            line = "remote_hosts="+content+"\n"
+        print (line)
+    x.close()
+
+
+with open("input.yaml", 'r') as stream:
     global concurrency
     concurrency = 1
     iteration = 1
@@ -99,6 +117,8 @@ with open("Input/input.yaml", 'r') as stream:
             instancevar = content['instance']
             instanceNo = instancevar[0]
             create_instance(instanceNo)
+            read_n_write_ip()
+
 
         if 'execution' in content:
             exection = content['execution']
