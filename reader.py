@@ -10,7 +10,9 @@ import fileinput, string, sys
 
 global jmeterPath
 global chrome_script_path
+chrome_script_path = ''
 global firefox_script_path
+firefox_script_path = ''
 global reportPath
 
 def filecreation():
@@ -26,7 +28,7 @@ def filecreation():
     return reportdir
 
 
-with open("config.yaml", 'r') as stream:
+with open("Input/config.yaml", 'r') as stream:
     try:
         content = yaml.load(stream)
         #print(content)
@@ -74,7 +76,7 @@ def jmeter_exection(iteration, rampup, concurrency, filepath):
 def create_instance(instance_number):
     print("Need to create "+str(instance_number)+" Instance(s)")
 
-    with open("aws-config.yaml", 'r') as stream:
+    with open("Input/aws-config.yaml", 'r') as stream:
         try:
             content = yaml.load(stream)
             print(content)
@@ -87,7 +89,7 @@ def create_instance(instance_number):
 
 
 def read_n_write_ip():
-    with open(jmeterPath+"/ipconfig.txt", 'r') as stream:
+    with open(jmeterPath+"\ipconfig.txt", 'r') as stream:
         try:
             content = yaml.load(stream)
             print(content)
@@ -104,7 +106,7 @@ def read_n_write_ip():
     x.close()
 
 
-with open("input.yaml", 'r') as stream:
+with open("Input/input.yaml", 'r') as stream:
     global concurrency
     concurrency = 1
     iteration = 1
@@ -187,9 +189,14 @@ with open("input.yaml", 'r') as stream:
 
                 scripts = content['scripts']
                 for script in scripts:
-                    lst = os.listdir(path)
+                    #print(path)
+                    #print(os.path.dirname(os.path.realpath(__file__)))
+                    filedir = os.path.dirname(os.path.realpath(__file__))+path
+                    print(filedir)
+                    lst = os.listdir(filedir)
                     if script in lst:
-                        filepath = path+"\\"+script
+                        filepath = filedir+"\\"+script
+                        print(filepath)
                         print(script,browser,iteration,rampup,concurrency,iteration,rampup,concurrency)
                         jmeter_exection(iteration, rampup, concurrency, filepath)
 
