@@ -9,7 +9,6 @@ url:
 
 browsers:
   - chrome
-  - firefox
 
 execution:
   - concurrency: 10
