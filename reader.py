@@ -96,6 +96,7 @@ def create_instance(instance_number):
         ips.append(instance.private_ip_address)
 
     file =  open(jmeterPath + "\ipconfig.txt", 'w')
+    print(ips)
     ip = '%s' % ','.join(ips)
     print(ip)
     file.write(ip)
