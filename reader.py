@@ -113,7 +113,7 @@ def create_instance(instance_number):
 
 
 def read_n_write_ip():
-    with open(jmeterPath+"\ipconfig.txt", 'r') as stream:
+    with open(jmeterPath+"/ipconfig.txt", 'r') as stream:
         try:
             content = yaml.load(stream)
             print(content)
@@ -124,8 +124,9 @@ def read_n_write_ip():
     text = "remote_hosts="
     x = fileinput.input(files=jmeterPath+"\jmeter.properties",inplace=1)
     for line in x:
+        line = line.replace('\n', '')
         if text in line:
-            line = "remote_hosts="+content+"\n"
+            line = "remote_hosts="+content+""
         print (line)
     x.close()
 
