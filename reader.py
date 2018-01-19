@@ -7,12 +7,14 @@ import csv
 from datetime import datetime
 from threading import Timer
 import fileinput, string, sys
+import boto3 # to import boto3 library
 
+ips = []
 global jmeterPath
-global chrome_script_path
-chrome_script_path = ''
-global firefox_script_path
-firefox_script_path = ''
+#chrome_script_path
+chrome_script_path = '/scripts/chrome'
+#firefox_script_path
+firefox_script_path = '/scripts/firefox'
 global reportPath
 
 def filecreation():
@@ -45,10 +47,17 @@ with open("Input/config.yaml", 'r') as stream:
         print(reportPath)
 
         scriptVar = content['scripts']
+        #global chrome_script_path
+        #global firefox_script_path
         for scriptpath in scriptVar:
+
             if "chrome" in scriptpath:
+
+                print(chrome_script_path)
                 chrome_script_path = scriptpath['chrome']
             elif "firefox" in scriptpath:
+
+                print(firefox_script_path)
                 firefox_script_path = scriptpath['firefox']
 
         print(chrome_script_path,firefox_script_path)
@@ -74,7 +83,22 @@ def jmeter_exection(iteration, rampup, concurrency, filepath):
 
 
 def create_instance(instance_number):
+    global ips
     print("Need to create "+str(instance_number)+" Instance(s)")
+
+    ec2 = boto3.resource('ec2', region_name='us-east-2')  # call ec2 recourse to perform further actions
+    instances = ec2.instances.all()  # get all instances from above region
+    print(instances)
+    for instance in instances:
+        print("Instance id - ", instance.id)
+        print("Instance public IP - ", instance.public_ip_address)
+        print("Instance private IP ", instance.private_ip_address)
+        ips.append(instance.private_ip_address)
+
+    file =  open(jmeterPath + "\ipconfig.txt", 'w')
+    ip = 'list_new = %s' % ','.join(ips)
+    print(ip)
+    file.write(ip)
 
     with open("Input/aws-config.yaml", 'r') as stream:
         try:
@@ -210,3 +234,4 @@ with open("Input/input.yaml", 'r') as stream:
 
     except yaml.YAMLError as exc:
         print(exc)
+
