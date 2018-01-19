@@ -2,11 +2,10 @@ gitUrl:
   - https://github.com/Yajan/BlazeMeterMammothScript.git
 
 jmeterPath:
-  - C:\Users\Yajana\apache-jmeter-3.3\apache-jmeter-3.3\bin
-
+  - C:\Users\Administrator\Documents\apache-jmeter-3.3\bin
 scripts:
   - \Scripts\Chrome
   - \Scripts\Firefox
 
 reports:
-  - C:\Users\Yajana\apache-jmeter-3.3\apache-jmeter-3.3\Reports
+  - C:\Users\Administrator\Documents\Results
