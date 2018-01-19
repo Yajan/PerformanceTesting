@@ -93,7 +93,9 @@ def create_instance(instance_number):
         print("Instance id - ", instance.id)
         print("Instance public IP - ", instance.public_ip_address)
         print("Instance private IP ", instance.private_ip_address)
-        ips.append(instance.private_ip_address)
+        ipVar = instance.private_ip_address
+        if ipVar:
+            ips.append()
 
     file =  open(jmeterPath + "\ipconfig.txt", 'w')
     print(ips)
