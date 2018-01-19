@@ -2,8 +2,7 @@
 # - C:\Users\admin\PycharmProjects\BlazeMeterAPI\JMXfiles
 
 scripts:
-  - SanityLoginF.jmx
-  - C:\Users\admin\Downloads\URLupload.jmx
+  - SanityLoginS.jmx
 
 url:
   - https://app.mammoth.io/#/login
