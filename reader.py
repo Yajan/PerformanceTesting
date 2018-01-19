@@ -12,9 +12,9 @@ import boto3 # to import boto3 library
 ips = []
 global jmeterPath
 #chrome_script_path
-chrome_script_path = '/scripts/chrome'
+chrome_script_path = '\Scripts\Chrome'
 #firefox_script_path
-firefox_script_path = '/scripts/firefox'
+firefox_script_path = '\Scripts\Firefox'
 global reportPath
 
 def filecreation():
