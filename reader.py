@@ -96,7 +96,7 @@ def create_instance(instance_number):
         ips.append(instance.private_ip_address)
 
     file =  open(jmeterPath + "\ipconfig.txt", 'w')
-    ip = 'list_new = %s' % ','.join(ips)
+    ip = '%s' % ','.join(ips)
     print(ip)
     file.write(ip)
 
@@ -235,4 +235,3 @@ with open("Input/input.yaml", 'r') as stream:
 
     except yaml.YAMLError as exc:
         print(exc)
-
