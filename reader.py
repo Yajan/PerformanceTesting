@@ -12,9 +12,9 @@ import boto3 # to import boto3 library
 ips = []
 global jmeterPath
 #chrome_script_path
-chrome_script_path = '\Scripts\Chrome'
+chrome_script_path = '/scripts/chrome'
 #firefox_script_path
-firefox_script_path = '\Scripts\Firefox'
+firefox_script_path = '/scripts/firefox'
 global reportPath
 
 def filecreation():
@@ -78,45 +78,14 @@ def jmeter_exection(iteration, rampup, concurrency, filepath):
     os.chdir(jmeterPath)
     reportdir = filecreation()
     t.start()
-    os.system("jmeter.bat -n -t"+ filepath+" -l "+reportdir+"\log.csv -e -o "+reportdir+"\HTML -r -X -Gusers="+str(concurrency)+" -GrampUp="+str(rampup)+" -Gcount="+str(iteration))
+    os.system("jmeter.bat -n -t"+ filepath+" -l "+reportdir+"\log.csv -e -o "+reportdir+"\HTML -R -Gusers="+str(concurrency)+" -GrampUp="+str(rampup)+" -Gcount="+str(iteration))
     print("executed")
 
 
-def create_instance(instance_number):
-    global ips
-    print("Need to create "+str(instance_number)+" Instance(s)")
-
-    ec2 = boto3.resource('ec2', region_name='us-east-2')  # call ec2 recourse to perform further actions
-    instances = ec2.instances.all()  # get all instances from above region
-    print(instances)
-    for instance in instances:
-        print("Instance id - ", instance.id)
-        print("Instance public IP - ", instance.public_ip_address)
-        print("Instance private IP ", instance.private_ip_address)
-        ipVar = instance.private_ip_address
-        if ipVar:
-            ips.append(ipVar)
-
-    file =  open(jmeterPath + "\ipconfig.txt", 'w')
-    print(ips)
-    ip = '%s' % ','.join(ips)
-    print(ip)
-    file.write(ip)
-
-    with open("Input/aws-config.yaml", 'r') as stream:
-        try:
-            content = yaml.load(stream)
-            print(content)
-            ami = content['ami']
-            print(ami)
-
-
-        except yaml.YAMLError as exc:
-            print(exc)
 
 
 def read_n_write_ip():
-    with open(jmeterPath+"/ipconfig.txt", 'r') as stream:
+    with open(jmeterPath+"\ipconfig.txt", 'r') as stream:
         try:
             content = yaml.load(stream)
             print(content)
@@ -127,9 +96,8 @@ def read_n_write_ip():
     text = "remote_hosts="
     x = fileinput.input(files=jmeterPath+"\jmeter.properties",inplace=1)
     for line in x:
-        line = line.replace('\n', '')
         if text in line:
-            line = "remote_hosts="+content+""
+            line = "remote_hosts="+content+"\n"
         print (line)
     x.close()
 
@@ -146,7 +114,6 @@ with open("Input/input.yaml", 'r') as stream:
         if 'instance' in content:
             instancevar = content['instance']
             instanceNo = instancevar[0]
-            create_instance(instanceNo)
             read_n_write_ip()
 
 
