@@ -78,7 +78,7 @@ def jmeter_exection(iteration, rampup, concurrency, filepath):
     os.chdir(jmeterPath)
     reportdir = filecreation()
     t.start()
-    os.system("jmeter.bat -n -t"+ filepath+" -l "+reportdir+"\log.csv -e -o "+reportdir+"\HTML -R -Gusers="+str(concurrency)+" -GrampUp="+str(rampup)+" -Gcount="+str(iteration))
+    os.system("jmeter.bat -n -t"+ filepath+" -l "+reportdir+"\log.csv -e -o "+reportdir+"\HTML -r -Gusers="+str(concurrency)+" -GrampUp="+str(rampup)+" -Gcount="+str(iteration))
     print("executed")
 
 
