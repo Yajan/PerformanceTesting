@@ -177,9 +177,11 @@ with open("Input/input.yaml", 'r') as stream:
             browsers = content['browsers']
             for browser in browsers:
                 if "chrome" in browser:
+                    path = ''
                     path = chrome_script_path
 
                 elif "firefox" in browser:
+                    path = ''
                     path = firefox_script_path
 
                 scripts = content['scripts']
