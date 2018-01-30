@@ -155,7 +155,7 @@ with open("Input/input.yaml", 'r') as stream:
             timeout = content['time-out'][0]
 
             if (isinstance(timeout, int)):
-                pass
+                timeout = int(timeout)* 60
 
             elif "m" in timeout:
                 timeout = timeout.replace("m", "")
