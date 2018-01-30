@@ -310,7 +310,10 @@ try{&#xd;
     p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: login = &quot;+vars.get(&quot;login&quot;));&#xd;
     WDS.log.info(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: logout = &quot;+vars.get(&quot;logout&quot;));&#xd;
     p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: logout = &quot;+vars.get(&quot;logout&quot;));&#xd;
-    &#xd;
+    LocalDateTime StartTime = LocalDateTime.parse(vars.get(&quot;StartTime&quot;));&#xd;
+    Long minutesBetween=ChronoUnit.MILLIS.between(StartTime,EndTime);&#xd;
+    p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: TotalTime = &quot;+minutesBetween);&#xd;
+    WDS.log.info(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: TotalTime = &quot;+minutesBetween);&#xd;
     p.close();&#xd;
  }</stringProp>
             <stringProp name="WebDriverSampler.parameters"></stringProp>
