@@ -96,6 +96,7 @@ vars.put(&quot;RenameTitle&quot;,&quot;0&quot;);&#xd;
 vars.put(&quot;Renamerule&quot;,&quot;0&quot;);&#xd;
 vars.put(&quot;RuleDeletion&quot;,&quot;0&quot;);&#xd;
 vars.put(&quot;logout&quot;,&quot;0&quot;);&#xd;
+vars.put(&quot;ip&quot;,&quot;0&quot;);&#xd;
 WDS.sampleResult.sampleStart();&#xd;
 //Script Starts from here&#xd;
 vars.put(&quot;StartTime&quot;,String.valueOf(LocalDateTime.now()));&#xd;
@@ -807,8 +808,15 @@ try{
 }
  finally{
 
+        try {
+           InetAddress ipAddr = InetAddress.getLocalHost();
+          vars.put(&quot;ip&quot;,String.valueOf(ipAddr.getHostAddress()));
+
+            } catch (UnknownHostException ex) {
+                ex.printStackTrace();
+            }
     EndTime=LocalDateTime.now();
-    f = new FileOutputStream(&quot;TimestampsFolder/Timestamp.txt&quot;,true); 
+    f = new FileOutputStream(&quot;TimestampsFolder/Timestamp&quot;+vars.get(&quot;ip&quot;)+&quot;.txt&quot;,true); 
     p = new PrintStream(f);
     WDS.log.info(&quot; EndTime = &quot;+EndTime);
     WDS.sampleResult.sampleEnd();
@@ -836,6 +844,11 @@ try{
     WDS.log.info(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: EndTime = &quot;+EndTime);
     p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: startTime = &quot;+vars.get(&quot;StartTime&quot;));
     p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: EndTime = &quot;+EndTime);
+    LocalDateTime StartTime = LocalDateTime.parse(vars.get(&quot;StartTime&quot;));
+    Long minutesBetween=ChronoUnit.MILLIS.between(StartTime,EndTime);
+    p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: TotalTime = &quot;+minutesBetween);
+    WDS.log.info(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: TotalTime = &quot;+minutesBetween);
+
     p.close();
  }</stringProp>
             <stringProp name="WebDriverSampler.parameters"></stringProp>

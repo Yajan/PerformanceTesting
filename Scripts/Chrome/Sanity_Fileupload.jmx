@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jmeterTestPlan version="1.2" properties="3.2" jmeter="3.3 r1808647">
   <hashTree>
-    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="XSSFFileupload" enabled="true">
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Fileupload" enabled="true">
       <stringProp name="TestPlan.comments"></stringProp>
       <boolProp name="TestPlan.functional_mode">false</boolProp>
       <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
@@ -18,9 +18,9 @@
           <stringProp name="LoopController.loops">${__P(count,1)}</stringProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">${__P(users,1)}</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">${__P(rampup,2)}</stringProp>
-        <longProp name="ThreadGroup.start_time">1514375240000</longProp>
-        <longProp name="ThreadGroup.end_time">1514375240000</longProp>
+        <stringProp name="ThreadGroup.ramp_time">${__P(rampup,0)}</stringProp>
+        <longProp name="ThreadGroup.start_time">1514445928000</longProp>
+        <longProp name="ThreadGroup.end_time">1514445928000</longProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
         <stringProp name="ThreadGroup.duration"></stringProp>
         <stringProp name="ThreadGroup.delay"></stringProp>
@@ -88,8 +88,7 @@ vars.put(&quot;Itr&quot;,String.valueOf(&quot;${__BeanShell(vars.getIteration(),
 vars.put(&quot;usr&quot;,String.valueOf(&quot;${__threadNum}&quot;));&#xd;
 vars.put(&quot;overlay&quot;,&quot;0&quot;);&#xd;
 vars.put(&quot;login&quot;,&quot;0&quot;);&#xd;
-vars.put(&quot;XLSXupload&quot;,&quot;0&quot;);&#xd;
-vars.put(&quot;Perview&quot;,&quot;0&quot;);&#xd;
+vars.put(&quot;Fileupload&quot;,&quot;0&quot;);&#xd;
 vars.put(&quot;logout&quot;,&quot;0&quot;);&#xd;
 vars.put(&quot;ip&quot;,&quot;0&quot;);&#xd;
 WDS.sampleResult.sampleStart();&#xd;
@@ -186,14 +185,17 @@ WDS.sampleResult.sampleEnd();&#xd;
     File src= ((TakesScreenshot)WDS.browser).getScreenshotAs(OutputType.FILE);&#xd;
     try {&#xd;
      // now copy the  screenshot to desired location using copyFile //method&#xd;
-        FileUtils.copyFile(src, new File(&quot;Reporting/&quot;+ip+&quot;SanityLogin_login&quot;+vars.get(&quot;Itr&quot;)+&quot;i&quot;+vars.get(&quot;usr&quot;)+&quot;u&quot;+&quot;.png&quot;));&#xd;
+        FileUtils.copyFile(src, new File(&quot;Reporting/&quot;+ip+&quot;SanityFileupload_login&quot;+vars.get(&quot;Itr&quot;)+&quot;i&quot;+vars.get(&quot;usr&quot;)+&quot;u&quot;+&quot;.png&quot;));&#xd;
     }&#xd;
     catch (IOException e)&#xd;
      {&#xd;
        WDS.log.info(&quot;something wrong&quot;);&#xd;
      }&#xd;
  }&#xd;
-&#xd;
+finally&#xd;
+{&#xd;
+WDS.log.info(&quot;Comming to finally&quot;);&#xd;
+}&#xd;
 </stringProp>
             <stringProp name="WebDriverSampler.parameters"></stringProp>
             <stringProp name="WebDriverSampler.language">beanshell</stringProp>
@@ -202,58 +204,45 @@ WDS.sampleResult.sampleEnd();&#xd;
           <com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler guiclass="com.googlecode.jmeter.plugins.webdriver.sampler.gui.WebDriverSamplerGui" testclass="com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler" testname="jp@gc - WebDriver Sampler" enabled="true">
             <stringProp name="WebDriverSampler.script">import org.apache.jmeter.services.FileServer;&#xd;
 import org.openqa.selenium;&#xd;
-import java.awt.datatransfer.StringSelection;&#xd;
 import java.time.temporal.ChronoUnit;&#xd;
 import java.time.format.DateTimeFormatter;  &#xd;
 import java.time.LocalDateTime;   &#xd;
 import org.openqa.selenium.WebElement;&#xd;
 import org.openqa.selenium.By;&#xd;
-import org.apache.commons.io.FileUtils;&#xd;
-import org.openqa.selenium.OutputType;&#xd;
-import org.openqa.selenium.TakesScreenshot;&#xd;
+import java.io.FileReader;&#xd;
+import java.io.BufferedReader;&#xd;
+import java.io.FileWriter;&#xd;
 import java.util.concurrent.TimeUnit;&#xd;
+import java.util.ArrayList;&#xd;
+import org.testng.asserts.SoftAssert;&#xd;
 import java.util.List;&#xd;
 import org.openqa.selenium.support.ui.WebDriverWait;&#xd;
 import org.openqa.selenium.support.ui.ExpectedConditions;&#xd;
-WebDriverWait wait= new WebDriverWait(WDS.browser,20);&#xd;
+WebDriverWait wait= new WebDriverWait(WDS.browser,60);&#xd;
 WDS.sampleResult.sampleStart();&#xd;
-var vars = org.apache.jmeter.threads.JMeterContextService.getContext().getVariables();&#xd;
 try{&#xd;
-    try{&#xd;
-       //Checking for the invisibility of blanck page if there are no data in the application&#xd;
-    wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(&quot;//div[@class=&apos;no-data&apos;]&quot;)));&#xd;
-    }catch(Exception e){&#xd;
-        //If There is no data in the application uploading a new file.&#xd;
-    if(WDS.browser.findElement(By.xpath(&quot;//div[@class=&apos;no-data&apos;]&quot;)).isDisplayed()){&#xd;
-    wait.until(ExpectedConditions.elementToBeClickable(By.xpath(&quot;//ul[@class=&apos;menu-main&apos;]/child::li&quot;))).click();&#xd;
-    start=LocalDateTime.now();&#xd;
-    Thread.sleep(5000);&#xd;
-    file1= WDS.browser.findElement(By.xpath(&quot;//input[contains(@class,&apos;fileSelectHiddenInput&apos;)]&quot;));&#xd;
-    &#xd;
-    WDS.browser.executeScript(&quot;document.querySelector(&apos;.fileSelectHiddenInput&apos;).setAttribute(&apos;style&apos;,display=&apos;block&apos;,&apos;opacity:1; width:10px; height:10px; z-index:100&apos;)&quot;,new Object[] {&quot;&quot;});&#xd;
-    //filelocation=&quot;C:/Users/Deepak/Desktop/MamothPerformanceTest/scale_up_tests-master/test_suites/Test Files/CSVoffice_main.csv&quot;;&#xd;
-    filelocation=java.lang.System.getProperty(&quot;user.dir&quot;) + &quot;/&quot; + &quot;CSVoffice_main.csv&quot;;&#xd;
-    WDS.log.info(filelocation);&#xd;
-    file1.sendKeys(new String[] {filelocation});&#xd;
-    }&#xd;
-    }&#xd;
+try{&#xd;
+   //Checking for the invisibility of blanck page if there are no data in the application&#xd;
+wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(&quot;//div[@class=&apos;no-data&apos;]&quot;)));&#xd;
+}catch(Exception e){&#xd;
+    //If There is no data in the application uploading a new file.&#xd;
+if(WDS.browser.findElement(By.xpath(&quot;//div[@class=&apos;no-data&apos;]&quot;)).isDisplayed()){&#xd;
+wait.until(ExpectedConditions.elementToBeClickable(By.xpath(&quot;//ul[@class=&apos;menu-main&apos;]/child::li&quot;))).click();&#xd;
+start=LocalDateTime.now();&#xd;
+Thread.sleep(5000);&#xd;
+file1= WDS.browser.findElement(By.xpath(&quot;//input[contains(@class,&apos;fileSelectHiddenInput&apos;)]&quot;));&#xd;
+&#xd;
+WDS.browser.executeScript(&quot;document.querySelector(&apos;.fileSelectHiddenInput&apos;).setAttribute(&apos;style&apos;,display=&apos;block&apos;,&apos;opacity:1; width:10px; height:10px; z-index:100&apos;)&quot;,new Object[] {&quot;&quot;});&#xd;
+//filelocation=&quot;C:/Users/Deepak/Desktop/MamothPerformanceTest/scale_up_tests-master/test_suites/Test Files/CSVoffice_main.csv&quot;;&#xd;
+filelocation=java.lang.System.getProperty(&quot;user.dir&quot;) + &quot;/&quot; + &quot;Testfiles/CSVoffice_main.csv&quot;;&#xd;
+WDS.log.info(filelocation);&#xd;
+file1.sendKeys(new String[] {filelocation});&#xd;
+}&#xd;
+}&#xd;
 }catch(Exception e)  &#xd;
 {  &#xd;
-    try {&#xd;
-           InetAddress ipAddr = InetAddress.getLocalHost();&#xd;
-           ip= String.valueOf(ipAddr.getHostAddress());&#xd;
-            } catch (UnknownHostException ex) {&#xd;
-                ex.printStackTrace();&#xd;
-            }&#xd;
-    File src= ((TakesScreenshot)WDS.browser).getScreenshotAs(OutputType.FILE);&#xd;
-    try {&#xd;
-     // now copy the  screenshot to desired location using copyFile //method&#xd;
-        FileUtils.copyFile(src, new File(&quot;Reporting/&quot;+ip+&quot;NewViewTest_loginupload&quot;+vars.get(&quot;Itr&quot;)+&quot;i&quot;+vars.get(&quot;usr&quot;)+&quot;u&quot;+&quot;.png&quot;));&#xd;
-    }&#xd;
-    catch (IOException e)&#xd;
-     {&#xd;
-       WDS.log.info(&quot;something wrong&quot;);&#xd;
-     }&#xd;
+    //Exception if there is problem in file upload.&#xd;
+WDS.log.info(&quot;No loginupload&quot;);&#xd;
 }&#xd;
 &#xd;
 WDS.sampleResult.sampleEnd();&#xd;
@@ -270,43 +259,38 @@ import org.openqa.selenium.interactions.Action;&#xd;
 import org.openqa.selenium.interactions.Actions;&#xd;
 import java.io;&#xd;
 import java.io.File;&#xd;
-import java.awt.datatransfer.StringSelection;&#xd;
-import java.awt.event.KeyEvent;&#xd;
-import org.apache.commons.io.FileUtils;&#xd;
-import org.openqa.selenium.OutputType;&#xd;
-import org.openqa.selenium.TakesScreenshot;&#xd;
 import java.time.temporal.ChronoUnit;&#xd;
 import java.time.format.DateTimeFormatter;  &#xd;
 import java.time.LocalDateTime;   &#xd;
 import org.openqa.selenium.WebElement;&#xd;
+import org.apache.commons.io.FileUtils;&#xd;
+import org.openqa.selenium.OutputType;&#xd;
+import org.openqa.selenium.TakesScreenshot;&#xd;
 import org.openqa.selenium.By;&#xd;
-import java.io.FileReader;&#xd;
-import java.io.BufferedReader;&#xd;
 import java.io.FileWriter;&#xd;
 import java.util.concurrent.TimeUnit;&#xd;
-import java.util.ArrayList;&#xd;
 import java.util.List;&#xd;
 import java.nio.file.Path;&#xd;
 import java.nio.file.Paths;&#xd;
 import org.openqa.selenium.support.ui.WebDriverWait;&#xd;
 import org.openqa.selenium.support.ui.ExpectedConditions;&#xd;
-WebDriverWait wait= new WebDriverWait(WDS.browser,30);&#xd;
-WDS.sampleResult.sampleStart();&#xd;
 &#xd;
 var vars = org.apache.jmeter.threads.JMeterContextService.getContext().getVariables();&#xd;
+WebDriverWait wait= new WebDriverWait(WDS.browser,10);&#xd;
+WDS.sampleResult.sampleStart();&#xd;
+&#xd;
 try{&#xd;
-    String winHandleBefore=null;&#xd;
-    //Clicking on upload button for going to upload and uploading file which type of xlsx&#xd;
-    WDS.browser.findElement(By.xpath(&quot;//ul[@class=&apos;menu-main&apos;]/child::li&quot;)).click();&#xd;
+        //Clicking on upload button and uploading file by sending files in input tag&#xd;
+    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;//ul[@class=&apos;menu-main&apos;]/child::li&quot;)));&#xd;
+    wait.until(ExpectedConditions.elementToBeClickable(By.xpath(&quot;//ul[@class=&apos;menu-main&apos;]/child::li&quot;))).click();&#xd;
+    start=LocalDateTime.now();&#xd;
     String currDir  = System.getProperty(&quot;user.dir&quot;);&#xd;
     File file =new File(currDir);&#xd;
-    //wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;//h3[@class=&apos;modal-title&apos;][text()=&apos;Add more data&apos;]&quot;)));&#xd;
-    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;//p[@class=&apos;btn btn-outline&apos;]&quot;)));&#xd;
     Thread.sleep(5000);&#xd;
     file1= WDS.browser.findElement(By.xpath(&quot;//input[contains(@class,&apos;fileSelectHiddenInput&apos;)]&quot;));&#xd;
     &#xd;
     WDS.browser.executeScript(&quot;document.querySelector(&apos;.fileSelectHiddenInput&apos;).setAttribute(&apos;style&apos;,display=&apos;block&apos;,&apos;opacity:1; width:10px; height:10px; z-index:100&apos;)&quot;,new Object[] {&quot;&quot;});&#xd;
-    filelocation=java.lang.System.getProperty(&quot;user.dir&quot;) + &quot;/&quot;+&quot;TestFiles/site.xlsx&quot;;&#xd;
+    filelocation=java.lang.System.getProperty(&quot;user.dir&quot;) + &quot;/&quot; + &quot;Testfiles/CSVoffice_main.csv&quot;;&#xd;
     WDS.log.info(filelocation);&#xd;
     start=LocalDateTime.now();&#xd;
     oldTimeForProgress=LocalDateTime.now();&#xd;
@@ -314,93 +298,39 @@ try{&#xd;
     WebDriverWait wait2= new WebDriverWait(WDS.browser,300);&#xd;
     oldTimeForProgress=LocalDateTime.now();&#xd;
     try{&#xd;
-        //Checking for progress of the file upload&#xd;
+    //After upload checking the uploading status&#xd;
         wait2.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(&quot;//div[@class=&apos;progress progress-mini&apos;]&quot;)));&#xd;
         WDS.log.info(&quot;--------------------------------Progress bar gets invisible now-------------------&quot;);&#xd;
         &#xd;
         end=LocalDateTime.now();&#xd;
-    	Long minutesBetween=ChronoUnit.MILLIS.between(start,end);&#xd;
-    	vars.put(&quot;XLSXupload&quot;,String.valueOf(minutesBetween));&#xd;
-        //getting the time stamp of file upload&#xd;
-&#xd;
-    &#xd;
+        Long minutesBetween=ChronoUnit.MILLIS.between(start,end);&#xd;
+        String Timestamp = Long.toString(minutesBetween);&#xd;
+        //Getting the time stamps of uploaded file&#xd;
+        vars.put(&quot;Fileupload&quot;,String.valueOf(minutesBetween));&#xd;
     }&#xd;
     catch(Exception e)&#xd;
     {&#xd;
         WDS.log.info(&quot;---------------Looking like file got stuck in processing messages----------------&quot;);&#xd;
         &#xd;
         end=LocalDateTime.now();&#xd;
-    	Long minutesBetween=ChronoUnit.MILLIS.between(start,end);&#xd;
-    	vars.put(&quot;XLSXupload&quot;,String.valueOf(minutesBetween));&#xd;
+        Long minutesBetween=ChronoUnit.MILLIS.between(start,end);&#xd;
+        String Timestamp = Long.toString(minutesBetween);&#xd;
+        WDS.log.info(&quot;Login: Fileupload = file is not uploaded: &quot;+Timestamp+&quot; miliseconds&quot;);&#xd;
     }&#xd;
-}&#xd;
-catch(Exception e){&#xd;
-WDS.log.info(&quot;Exception occure:File not uploaded&quot;);&#xd;
-		}&#xd;
-&#xd;
-WDS.sampleResult.sampleEnd();</stringProp>
-            <stringProp name="WebDriverSampler.parameters"></stringProp>
-            <stringProp name="WebDriverSampler.language">javascript</stringProp>
-          </com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler>
-          <hashTree/>
-          <com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler guiclass="com.googlecode.jmeter.plugins.webdriver.sampler.gui.WebDriverSamplerGui" testclass="com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler" testname="jp@gc - WebDriver Sampler" enabled="true">
-            <stringProp name="WebDriverSampler.script">import java.io.File;&#xd;
-import java.nio.file.Path;&#xd;
-import java.nio.file.Paths;&#xd;
-import java.util.ArrayList;&#xd;
-import java.util.HashMap;&#xd;
-import java.util.List;&#xd;
-import org.openqa.selenium.support.ui.Select;&#xd;
-import java.util.concurrent.TimeUnit;&#xd;
-import java.time.temporal.ChronoUnit;&#xd;
-import java.time.format.DateTimeFormatter;  &#xd;
-import org.apache.commons.io.FileUtils;&#xd;
-import org.openqa.selenium.OutputType;&#xd;
-import org.openqa.selenium.TakesScreenshot;&#xd;
-import java.time.LocalDateTime;  &#xd;
-import org.apache.commons.io.FileUtils;&#xd;
-import org.apache.poi.xssf.usermodel.XSSFRow;&#xd;
-import org.apache.poi.xssf.usermodel.XSSFSheet;&#xd;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;&#xd;
-import java.util.logging.Logger;&#xd;
-import org.openqa.selenium.By;&#xd;
-import org.openqa.selenium.JavascriptExecutor;&#xd;
-import org.openqa.selenium.Keys;&#xd;
-import org.openqa.selenium.NoSuchElementException;&#xd;
-import org.openqa.selenium.StaleElementReferenceException;&#xd;
-import org.openqa.selenium.WebDriver;&#xd;
-import org.openqa.selenium.WebElement;&#xd;
-import org.openqa.selenium.interactions.Actions;&#xd;
-import org.openqa.selenium.support.ui.ExpectedCondition;&#xd;
-import org.openqa.selenium.support.ui.ExpectedConditions;&#xd;
-import org.openqa.selenium.support.ui.FluentWait;&#xd;
-import org.openqa.selenium.support.ui.Wait;&#xd;
-import org.openqa.selenium.support.ui.WebDriverWait;&#xd;
-import com.opencsv.CSVReader;&#xd;
-&#xd;
-WebDriverWait wait = new WebDriverWait(WDS.browser,30);&#xd;
-&#xd;
-var vars = org.apache.jmeter.threads.JMeterContextService.getContext().getVariables();&#xd;
-filelocation=java.lang.System.getProperty(&quot;user.dir&quot;) + &quot;/&quot;+&quot;TestFiles/site.xlsx&quot;;&#xd;
-Filelocation=&quot;site.xlsx&quot;;&#xd;
-WDS.sampleResult.sampleStart();&#xd;
-&#xd;
-//Checking the number of lines in the file needs to be uploaded&#xd;
-colNum=0;&#xd;
-rowNum=0;&#xd;
-try{&#xd;
-        filelocation=java.lang.System.getProperty(&quot;user.dir&quot;) + &quot;/&quot;+&quot;TestFiles/site.xlsx&quot;;&#xd;
-        FileInputStream fis=new FileInputStream(filelocation);&#xd;
-		XSSFWorkbook workbook = new XSSFWorkbook(fis);&#xd;
-		XSSFSheet sheet = workbook.getSheet(&quot;Report&quot;);&#xd;
-		XSSFRow row = sheet.getRow(0);&#xd;
-		int colNum = row.getLastCellNum();&#xd;
-		WDS.log.info(&quot;Total Number of Columns in unprocessed site.xlsx is : &quot;+colNum);&#xd;
-		int rowNum = sheet.getLastRowNum()+1;&#xd;
-		WDS.log.info(&quot;Total Number of Rows in unprocessed site.xlsx is : &quot;+rowNum);&#xd;
-}&#xd;
-  catch(Exception e)&#xd;
- {&#xd;
+    try{&#xd;
+        //User is trying to logout from the application&#xd;
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;//div[@class=&apos;dropdown-toggle&apos;]/p&quot;))).click();&#xd;
+        logout=wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;//a[@class=&apos;logout&apos;]&quot;)));&#xd;
+        start=LocalDateTime.now();&#xd;
+        logout.click();&#xd;
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;//div/figure[@class=&apos;logo-mammoth text-hide&apos;]&quot;)));&#xd;
+        end=LocalDateTime.now();&#xd;
+        Long minutesBetween=ChronoUnit.MILLIS.between(start,end);&#xd;
+        vars.put(&quot;logout&quot;,String.valueOf(minutesBetween));&#xd;
+        WDS.log.info(vars.get(&quot;logout&quot;));&#xd;
+    }&#xd;
+    catch(Exception e)&#xd;
+    {&#xd;
         //log.info(&quot;Exception is : &quot; +e);&#xd;
         try {&#xd;
                InetAddress ipAddr = InetAddress.getLocalHost();&#xd;
@@ -417,119 +347,27 @@ try{&#xd;
          {&#xd;
            WDS.log.info(&quot;something wrong&quot;);&#xd;
          }&#xd;
-}&#xd;
- try{&#xd;
-try{&#xd;
-//Checking weather application opened the preview session or not&#xd;
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;//div[@class=&apos;prev-body&apos;]//section[contains(@class,&apos;preview&apos;)]&quot;)));&#xd;
-}&#xd;
-catch(Exception e){&#xd;
-//opening the preview session if it is not yet opened.&#xd;
-    wait.until(ExpectedConditions.elementToBeClickable(By.xpath(&quot;//h5//span[@class=&apos;ng-binding&apos;]&quot;)));&#xd;
-    Actions action = new Actions(WDS.browser);&#xd;
-    uploadedDSName= wait.until(ExpectedConditions.elementToBeClickable(By.xpath(&quot;//h5//span[@class=&apos;ng-binding&apos;]&quot;)));&#xd;
-    action.moveToElement(wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;//h5//span[@class=&apos;ng-binding&apos;]&quot;)))).click().perform();&#xd;
-}&#xd;
- }&#xd;
-catch(Exception e){&#xd;
-        try {&#xd;
-               InetAddress ipAddr = InetAddress.getLocalHost();&#xd;
-               ip= String.valueOf(ipAddr.getHostAddress());&#xd;
-                } catch (UnknownHostException ex) {&#xd;
-                    ex.printStackTrace();&#xd;
-                }&#xd;
-        File src= ((TakesScreenshot)WDS.browser).getScreenshotAs(OutputType.FILE);&#xd;
-        try {&#xd;
-         // now copy the  screenshot to desired location using copyFile //method&#xd;
-            FileUtils.copyFile(src, new File(&quot;Reporting/&quot;+ip+&quot;SanityFileupload_upload&quot;+vars.get(&quot;Itr&quot;)+&quot;i&quot;+vars.get(&quot;usr&quot;)+&quot;u&quot;+&quot;.png&quot;));&#xd;
-        }&#xd;
-        catch (IOException e)&#xd;
-         {&#xd;
-           WDS.log.info(&quot;something wrong&quot;);&#xd;
-         }&#xd;
-}&#xd;
+     }&#xd;
 &#xd;
-try{&#xd;
-	start=LocalDateTime.now();&#xd;
-	WDS.browser.findElement(By.xpath(&quot;//div[@class=&apos;title-bar&apos;]//h1&quot;)).isDisplayed();&#xd;
-	end=LocalDateTime.now();&#xd;
-    Long minutesBetween=ChronoUnit.MILLIS.between(start,end);&#xd;
-    vars.put(&quot;Perview&quot;,String.valueOf(minutesBetween));&#xd;
-//Taking the time stamps to get a preview&#xd;
 }catch(Exception e)&#xd;
 {&#xd;
-    WDS.log.info(&quot;Unprocessed DS name is not present in Preview section&quot;);&#xd;
-         try {&#xd;
-               InetAddress ipAddr = InetAddress.getLocalHost();&#xd;
-               ip= String.valueOf(ipAddr.getHostAddress());&#xd;
-                } catch (UnknownHostException ex) {&#xd;
-                    ex.printStackTrace();&#xd;
-                }&#xd;
-        File src= ((TakesScreenshot)WDS.browser).getScreenshotAs(OutputType.FILE);&#xd;
-        try {&#xd;
-         // now copy the  screenshot to desired location using copyFile //method&#xd;
-            FileUtils.copyFile(src, new File(&quot;Reporting/&quot;+ip+&quot;SanityFileupload_upload&quot;+vars.get(&quot;Itr&quot;)+&quot;i&quot;+vars.get(&quot;usr&quot;)+&quot;u&quot;+&quot;.png&quot;));&#xd;
-        }&#xd;
-        catch (IOException e)&#xd;
-         {&#xd;
-           WDS.log.info(&quot;something wrong&quot;);&#xd;
-         }&#xd;
-}&#xd;
-		try{&#xd;
-		Select ProcessedDataDropDown =new Select(wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(&quot;//span[text()=&apos;Previewing: &apos;]/following-sibling::div[contains(@class,&apos;styled-select&apos;)]/select&quot;))));&#xd;
-		WebElement processed =ProcessedDataDropDown.getFirstSelectedOption();&#xd;
-		String processedRows=processed.getText();&#xd;
-			processedRows.contains(&quot;11&quot;);&#xd;
-		//getting number of rows and lines below in the applciation&#xd;
-			WDS.log.info(&quot;Processed data contain ----&gt;&quot;+processedRows);&#xd;
-			ProcessedDataDropDown.selectByIndex(0);//select source data&#xd;
-			Thread.sleep(500);&#xd;
-			WebElement sourceData =ProcessedDataDropDown.getFirstSelectedOption();   &#xd;
-			Thread.sleep(500);&#xd;
-			String source =sourceData.getText().toString();&#xd;
-			WDS.log.info(&quot;Source data contain ----&gt;&quot;+source);&#xd;
-		try{&#xd;
-			source.contains(String.valueOf(rowNum));&#xd;
-}catch(Exception e){&#xd;
-		WDS.log.info(&quot;Source data doesn&apos;t contains 22 rows&quot;);&#xd;
-}&#xd;
-&#xd;
-}&#xd;
-catch(Exception e)&#xd;
-{&#xd;
-     WDS.log.info(&quot;Processed data doesn&apos;t contains 11 rows&quot;);&#xd;
-}&#xd;
-try{&#xd;
-    //User is trying to logout from the application&#xd;
-    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;//div[@class=&apos;dropdown-toggle&apos;]/p&quot;))).click();&#xd;
-    logout=wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;//a[@class=&apos;logout&apos;]&quot;)));&#xd;
-    start=LocalDateTime.now();&#xd;
-    logout.click();&#xd;
-    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;//div/figure[@class=&apos;logo-mammoth text-hide&apos;]&quot;)));&#xd;
-    end=LocalDateTime.now();&#xd;
-    Long minutesBetween=ChronoUnit.MILLIS.between(start,end);&#xd;
-    vars.put(&quot;logout&quot;,String.valueOf(minutesBetween));&#xd;
-    WDS.log.info(vars.get(&quot;logout&quot;));&#xd;
+    //log.info(&quot;Exception is : &quot; +e);&#xd;
+    try {&#xd;
+           InetAddress ipAddr = InetAddress.getLocalHost();&#xd;
+           ip= String.valueOf(ipAddr.getHostAddress());&#xd;
+            } catch (UnknownHostException ex) {&#xd;
+                ex.printStackTrace();&#xd;
+            }&#xd;
+    File src= ((TakesScreenshot)WDS.browser).getScreenshotAs(OutputType.FILE);&#xd;
+    try {&#xd;
+     // now copy the  screenshot to desired location using copyFile //method&#xd;
+        FileUtils.copyFile(src, new File(&quot;Reporting/&quot;+ip+&quot;SanityFileupload_logout&quot;+vars.get(&quot;Itr&quot;)+&quot;i&quot;+vars.get(&quot;usr&quot;)+&quot;u&quot;+&quot;.png&quot;));&#xd;
+    }&#xd;
+    catch (IOException e)&#xd;
+     {&#xd;
+       WDS.log.info(&quot;something wrong&quot;);&#xd;
+     }&#xd;
  }&#xd;
-  catch(Exception e)&#xd;
- {&#xd;
-        //log.info(&quot;Exception is : &quot; +e);&#xd;
-        try {&#xd;
-               InetAddress ipAddr = InetAddress.getLocalHost();&#xd;
-               ip= String.valueOf(ipAddr.getHostAddress());&#xd;
-                } catch (UnknownHostException ex) {&#xd;
-                    ex.printStackTrace();&#xd;
-                }&#xd;
-        File src= ((TakesScreenshot)WDS.browser).getScreenshotAs(OutputType.FILE);&#xd;
-        try {&#xd;
-         // now copy the  screenshot to desired location using copyFile //method&#xd;
-            FileUtils.copyFile(src, new File(&quot;Reporting/&quot;+ip+&quot;SanityFileupload_upload&quot;+vars.get(&quot;Itr&quot;)+&quot;i&quot;+vars.get(&quot;usr&quot;)+&quot;u&quot;+&quot;.png&quot;));&#xd;
-        }&#xd;
-        catch (IOException e)&#xd;
-         {&#xd;
-           WDS.log.info(&quot;something wrong&quot;);&#xd;
-         }&#xd;
-}&#xd;
  finally{&#xd;
 &#xd;
         try {&#xd;
@@ -542,20 +380,15 @@ try{&#xd;
     EndTime=LocalDateTime.now();&#xd;
     f = new FileOutputStream(&quot;TimestampsFolder/Timestamp&quot;+vars.get(&quot;ip&quot;)+&quot;.txt&quot;,true); &#xd;
     p = new PrintStream(f);&#xd;
-    WDS.log.info(&quot; EndTime = &quot;+EndTime);&#xd;
     WDS.sampleResult.sampleEnd();&#xd;
     WDS.log.info(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: Overlay = &quot;+vars.get(&quot;overlay&quot;));&#xd;
     p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: Overlay = &quot;+vars.get(&quot;overlay&quot;));&#xd;
     WDS.log.info(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: login = &quot;+vars.get(&quot;login&quot;));&#xd;
     p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: login = &quot;+vars.get(&quot;login&quot;));&#xd;
-    WDS.log.info(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: XLSXupload = &quot;+vars.get(&quot;XLSXupload&quot;));&#xd;
-    p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: XLSXupload = &quot;+vars.get(&quot;XLSXupload&quot;));&#xd;
-    WDS.log.info(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: Perview = &quot;+vars.get(&quot;Perview&quot;));&#xd;
-    p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: Perview = &quot;+vars.get(&quot;Perview&quot;));&#xd;
+    WDS.log.info(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: Fileupload = &quot;+vars.get(&quot;Fileupload&quot;));&#xd;
+    p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: Fileupload = &quot;+vars.get(&quot;Fileupload&quot;));&#xd;
     WDS.log.info(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: logout = &quot;+vars.get(&quot;logout&quot;));&#xd;
     p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: logout = &quot;+vars.get(&quot;logout&quot;));&#xd;
-    WDS.log.info(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: startTime = &quot;+vars.get(&quot;StartTime&quot;));&#xd;
-    WDS.log.info(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: EndTime = &quot;+EndTime);&#xd;
     p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: startTime = &quot;+vars.get(&quot;StartTime&quot;));&#xd;
     p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: EndTime = &quot;+EndTime);&#xd;
     LocalDateTime StartTime = LocalDateTime.parse(vars.get(&quot;StartTime&quot;));&#xd;
@@ -563,12 +396,52 @@ try{&#xd;
     p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: TotalTime = &quot;+minutesBetween);&#xd;
     WDS.log.info(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: TotalTime = &quot;+minutesBetween);&#xd;
     p.close();&#xd;
- }</stringProp>
+&#xd;
+ }&#xd;
+&#xd;
+&#xd;
+</stringProp>
             <stringProp name="WebDriverSampler.parameters"></stringProp>
             <stringProp name="WebDriverSampler.language">beanshell</stringProp>
           </com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler>
           <hashTree/>
         </hashTree>
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <sentBytes>true</sentBytes>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+              <connectTime>true</connectTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
       </hashTree>
     </hashTree>
     <WorkBench guiclass="WorkBenchGui" testclass="WorkBench" testname="WorkBench" enabled="true">

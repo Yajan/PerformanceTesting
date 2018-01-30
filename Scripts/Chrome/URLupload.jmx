@@ -17,7 +17,7 @@
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <stringProp name="LoopController.loops">${__P(count,2)}</stringProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">${__P(users,2)}</stringProp>
+        <stringProp name="ThreadGroup.num_threads">${__P(users,1)}</stringProp>
         <stringProp name="ThreadGroup.ramp_time">${__P(rampup,2)}</stringProp>
         <longProp name="ThreadGroup.start_time">1514352769000</longProp>
         <longProp name="ThreadGroup.end_time">1514352769000</longProp>
@@ -86,6 +86,7 @@ vars.put(&quot;login&quot;,&quot;0&quot;);&#xd;
 vars.put(&quot;Fileupload&quot;,&quot;0&quot;);&#xd;
 vars.put(&quot;Urlupload&quot;,&quot;0&quot;);&#xd;
 vars.put(&quot;logout&quot;,&quot;0&quot;);&#xd;
+vars.put(&quot;ip&quot;,&quot;0&quot;);&#xd;
 WDS.sampleResult.sampleStart();&#xd;
 //Script Starts from here&#xd;
 vars.put(&quot;StartTime&quot;,String.valueOf(LocalDateTime.now()));&#xd;
@@ -460,8 +461,15 @@ try{
 }
  finally{
 
+        try {
+           InetAddress ipAddr = InetAddress.getLocalHost();
+          vars.put(&quot;ip&quot;,String.valueOf(ipAddr.getHostAddress()));
+
+            } catch (UnknownHostException ex) {
+                ex.printStackTrace();
+            }
     EndTime=LocalDateTime.now();
-    f = new FileOutputStream(&quot;TimestampsFolder/Timestamp.txt&quot;,true); 
+    f = new FileOutputStream(&quot;TimestampsFolder/Timestamp&quot;+vars.get(&quot;ip&quot;)+&quot;.txt&quot;,true); 
     p = new PrintStream(f);
     WDS.log.info(&quot; EndTime = &quot;+EndTime);
     WDS.sampleResult.sampleEnd();
@@ -477,6 +485,11 @@ try{
     p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: startTime = &quot;+vars.get(&quot;StartTime&quot;));
     WDS.log.info(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: EndTime = &quot;+EndTime);
     p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: EndTime = &quot;+EndTime);
+    LocalDateTime StartTime = LocalDateTime.parse(vars.get(&quot;StartTime&quot;));
+    Long minutesBetween=ChronoUnit.MILLIS.between(StartTime,EndTime);
+    p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: TotalTime = &quot;+minutesBetween);
+    WDS.log.info(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: TotalTime = &quot;+minutesBetween);
+
     p.close();
  }</stringProp>
           <stringProp name="WebDriverSampler.parameters"></stringProp>

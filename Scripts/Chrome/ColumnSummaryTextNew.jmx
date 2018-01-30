@@ -92,6 +92,7 @@ vars.put(&quot;Fileupload&quot;,&quot;0&quot;);&#xd;
 vars.put(&quot;NewWindow&quot;,&quot;0&quot;);&#xd;
 vars.put(&quot;EngineValues&quot;,&quot;0&quot;);&#xd;
 vars.put(&quot;logout&quot;,&quot;0&quot;);&#xd;
+vars.put(&quot;ip&quot;,&quot;0&quot;);&#xd;
 WDS.sampleResult.sampleStart();&#xd;
 //Script Starts from here&#xd;
 vars.put(&quot;StartTime&quot;,String.valueOf(LocalDateTime.now()));&#xd;
@@ -186,7 +187,7 @@ WDS.sampleResult.sampleEnd();&#xd;
     File src= ((TakesScreenshot)WDS.browser).getScreenshotAs(OutputType.FILE);&#xd;
     try {&#xd;
      // now copy the  screenshot to desired location using copyFile //method&#xd;
-        FileUtils.copyFile(src, new File(&quot;Reporting/&quot;+ip+&quot;SanityLogin_login&quot;+vars.get(&quot;Itr&quot;)+&quot;i&quot;+vars.get(&quot;usr&quot;)+&quot;u&quot;+&quot;.png&quot;));&#xd;
+        FileUtils.copyFile(src, new File(&quot;Reporting/&quot;+ip+&quot;summarytest_login&quot;+vars.get(&quot;Itr&quot;)+&quot;i&quot;+vars.get(&quot;usr&quot;)+&quot;u&quot;+&quot;.png&quot;));&#xd;
     }&#xd;
     catch (IOException e)&#xd;
      {&#xd;
@@ -248,7 +249,7 @@ try{&#xd;
     File src= ((TakesScreenshot)WDS.browser).getScreenshotAs(OutputType.FILE);&#xd;
     try {&#xd;
      // now copy the  screenshot to desired location using copyFile //method&#xd;
-        FileUtils.copyFile(src, new File(&quot;Reporting/&quot;+ip+&quot;NewViewTest_loginupload&quot;+vars.get(&quot;Itr&quot;)+&quot;i&quot;+vars.get(&quot;usr&quot;)+&quot;u&quot;+&quot;.png&quot;));&#xd;
+        FileUtils.copyFile(src, new File(&quot;Reporting/&quot;+ip+&quot;summarytest_loginupload&quot;+vars.get(&quot;Itr&quot;)+&quot;i&quot;+vars.get(&quot;usr&quot;)+&quot;u&quot;+&quot;.png&quot;));&#xd;
     }&#xd;
     catch (IOException e)&#xd;
      {&#xd;
@@ -407,7 +408,7 @@ catch(Exception e)&#xd;
     File src= ((TakesScreenshot)WDS.browser).getScreenshotAs(OutputType.FILE);&#xd;
     try {&#xd;
      // now copy the  screenshot to desired location using copyFile //method&#xd;
-        FileUtils.copyFile(src, new File(&quot;Reporting/&quot;+ip+&quot;NewViewTest_upload&quot;+vars.get(&quot;Itr&quot;)+&quot;i&quot;+vars.get(&quot;usr&quot;)+&quot;u&quot;+&quot;.png&quot;));&#xd;
+        FileUtils.copyFile(src, new File(&quot;Reporting/&quot;+ip+&quot;summarytest_upload&quot;+vars.get(&quot;Itr&quot;)+&quot;i&quot;+vars.get(&quot;usr&quot;)+&quot;u&quot;+&quot;.png&quot;));&#xd;
     }&#xd;
     catch (IOException e)&#xd;
      {&#xd;
@@ -436,6 +437,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import java.util.concurrent.TimeUnit;
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -462,7 +464,7 @@ try{
     File src= ((TakesScreenshot)WDS.browser).getScreenshotAs(OutputType.FILE);
     try {
      // now copy the  screenshot to desired location using copyFile //method
-        FileUtils.copyFile(src, new File(&quot;Reporting/&quot;+ip+&quot;NewViewTest_upload&quot;+vars.get(&quot;Itr&quot;)+&quot;i&quot;+vars.get(&quot;usr&quot;)+&quot;u&quot;+&quot;.png&quot;));
+        FileUtils.copyFile(src, new File(&quot;Reporting/&quot;+ip+&quot;summarytest_upload&quot;+vars.get(&quot;Itr&quot;)+&quot;i&quot;+vars.get(&quot;usr&quot;)+&quot;u&quot;+&quot;.png&quot;));
     }
     catch (IOException e)
      {
@@ -515,7 +517,7 @@ catch(Exception e)
     File src= ((TakesScreenshot)WDS.browser).getScreenshotAs(OutputType.FILE);
     try {
      // now copy the  screenshot to desired location using copyFile //method
-        FileUtils.copyFile(src, new File(&quot;Reporting/&quot;+ip+&quot;NewViewTest_upload&quot;+vars.get(&quot;Itr&quot;)+&quot;i&quot;+vars.get(&quot;usr&quot;)+&quot;u&quot;+&quot;.png&quot;));
+        FileUtils.copyFile(src, new File(&quot;Reporting/&quot;+ip+&quot;summarytest_summary&quot;+vars.get(&quot;Itr&quot;)+&quot;i&quot;+vars.get(&quot;usr&quot;)+&quot;u&quot;+&quot;.png&quot;));
     }
     catch (IOException e)
      {
@@ -546,7 +548,7 @@ try{
         File src= ((TakesScreenshot)WDS.browser).getScreenshotAs(OutputType.FILE);
         try {
          // now copy the  screenshot to desired location using copyFile //method
-            FileUtils.copyFile(src, new File(&quot;Reporting/&quot;+ip+&quot;SanityFileupload_upload&quot;+vars.get(&quot;Itr&quot;)+&quot;i&quot;+vars.get(&quot;usr&quot;)+&quot;u&quot;+&quot;.png&quot;));
+            FileUtils.copyFile(src, new File(&quot;Reporting/&quot;+ip+&quot;summarytest_logout&quot;+vars.get(&quot;Itr&quot;)+&quot;i&quot;+vars.get(&quot;usr&quot;)+&quot;u&quot;+&quot;.png&quot;));
         }
         catch (IOException e)
          {
@@ -555,8 +557,15 @@ try{
 }
  finally{
 
+        try {
+           InetAddress ipAddr = InetAddress.getLocalHost();
+          vars.put(&quot;ip&quot;,String.valueOf(ipAddr.getHostAddress()));
+
+            } catch (UnknownHostException ex) {
+                ex.printStackTrace();
+            }
     EndTime=LocalDateTime.now();
-    f = new FileOutputStream(&quot;TimestampsFolder/Timestamp.txt&quot;,true); 
+    f = new FileOutputStream(&quot;TimestampsFolder/Timestamp&quot;+vars.get(&quot;ip&quot;)+&quot;.txt&quot;,true); 
     p = new PrintStream(f);
     WDS.log.info(&quot; EndTime = &quot;+EndTime);
     WDS.sampleResult.sampleEnd();
@@ -576,6 +585,10 @@ try{
     p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: startTime = &quot;+vars.get(&quot;StartTime&quot;));
     WDS.log.info(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: EndTime = &quot;+EndTime);
     p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: EndTime = &quot;+EndTime);
+    LocalDateTime StartTime = LocalDateTime.parse(vars.get(&quot;StartTime&quot;));
+    Long minutesBetween=ChronoUnit.MILLIS.between(StartTime,EndTime);
+    p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: TotalTime = &quot;+minutesBetween);
+    WDS.log.info(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: TotalTime = &quot;+minutesBetween);
     p.close();
  }</stringProp>
             <stringProp name="WebDriverSampler.parameters"></stringProp>
