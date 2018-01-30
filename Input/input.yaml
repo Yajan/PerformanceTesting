@@ -11,12 +11,12 @@ browsers:
   - chrome
 
 execution:
-  - concurrency: 5
+  - concurrency: 2
   - ramp-up: 1
   - iterations: 2
 
 time-out:
-  - 5m
+  - 10m
 
 instance:
   - 3
