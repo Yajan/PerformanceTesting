@@ -472,7 +472,7 @@ try{
                 ex.printStackTrace();
             }
     EndTime=LocalDateTime.now();
-    f = new FileOutputStream(&quot;TimestampsFolder/Timestamp&quot;+vars.get(&quot;ip&quot;)+&quot;.txt&quot;,true); 
+    f = new FileOutputStream(&quot;TimestampsFolder/Timestamp_DSDeletionTest_&quot;+vars.get(&quot;ip&quot;)+&quot;.txt&quot;,true); 
     p = new PrintStream(f);
     WDS.log.info(&quot; EndTime = &quot;+EndTime);
     WDS.sampleResult.sampleEnd();
