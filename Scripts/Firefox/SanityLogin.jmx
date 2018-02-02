@@ -299,7 +299,7 @@ try{&#xd;
      }&#xd;
  }&#xd;
  finally{&#xd;
-    f = new FileOutputStream(&quot;TimestampsFolder/Timestamp.txt&quot;,true); &#xd;
+    f = new FileOutputStream(&quot;TimestampsFolder/Timestamp_SanityLogin_.txt&quot;,true); &#xd;
     p = new PrintStream(f); &#xd;
     EndTime=LocalDateTime.now();&#xd;
     WDS.log.info(&quot; EndTime = &quot;+EndTime);&#xd;
