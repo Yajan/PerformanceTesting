@@ -12,7 +12,9 @@ import boto3 # to import boto3 library
 ips = []
 global jmeterPath
 chrome_script_path = '/scripts/chrome'
+chrome_fullpath = os.path.dirname(os.path.realpath(__file__))+chrome_script_path
 firefox_script_path = '/scripts/firefox'
+firefox_fullpath = os.path.dirname(os.path.realpath(__file__))+firefox_script_path
 global reportPath
 
 
@@ -43,7 +45,7 @@ def jmeter_exection(iteration, rampup, concurrency, filepath):
 
     os.chdir(jmeterPath)
     t.start()
-    os.system("jmeter.bat -n -t"+ filepath+" -r -Gusers="+str(concurrency)+" -GrampUp="+str(rampup)+" -Gcount="+str(iteration))
+    #os.system("jmeter.bat -n -t"+ filepath+" -r -Gusers="+str(concurrency)+" -GrampUp="+str(rampup)+" -Gcount="+str(iteration))
     print("executed")
 
 
@@ -140,18 +142,15 @@ with open("Input/Input.yaml", 'r') as stream:
             browsers = content['browsers']
             for browser in browsers:
                 if "chrome" in browser:
-                    path = ''
-                    path = chrome_script_path
+                    path = chrome_fullpath
 
                 elif "firefox" in browser:
                     path = ''
-                    path = firefox_script_path
+                    path = firefox_fullpath
 
                 scripts = content['scripts']
                 for script in scripts:
-                    #print(path)
-                    #print(os.path.dirname(os.path.realpath(__file__)))
-                    filedir = os.path.dirname(os.path.realpath(__file__))+path
+                    filedir = path
                     print(filedir)
                     lst = os.listdir(filedir)
                     if script in lst:
