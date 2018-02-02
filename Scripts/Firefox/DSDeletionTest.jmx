@@ -466,7 +466,7 @@ try{
  finally{
 
     EndTime=LocalDateTime.now();
-    f = new FileOutputStream(&quot;TimestampsFolder/Timestamp.txt&quot;,true); 
+    f = new FileOutputStream(&quot;TimestampsFolder/Timestamp_DSDeletionTest_.txt&quot;,true); 
     p = new PrintStream(f);
     WDS.log.info(&quot; EndTime = &quot;+EndTime);
     WDS.sampleResult.sampleEnd();
