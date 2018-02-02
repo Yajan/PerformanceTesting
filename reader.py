@@ -11,29 +11,14 @@ import boto3 # to import boto3 library
 
 ips = []
 global jmeterPath
-#chrome_script_path
 chrome_script_path = '/scripts/chrome'
-#firefox_script_path
 firefox_script_path = '/scripts/firefox'
 global reportPath
-
-def filecreation():
-    reportdir = os.path.join(
-        reportPath,
-        datetime.now().strftime('%Y-%m-%d_%H-%M-%S'),"HTML")
-    try:
-        os.makedirs(reportdir)
-    except OSError as e:
-        if e.errno != errno.EEXIST:
-            raise  # This was not a "directory exist" error..
-
-    return reportdir
 
 
 with open("Input/config.yaml", 'r') as stream:
     try:
         content = yaml.load(stream)
-        #print(content)
         urlList = content['gitUrl']
         url = urlList[0]
         print(url)
@@ -42,25 +27,6 @@ with open("Input/config.yaml", 'r') as stream:
         jmeterPath = jmeterVar[0]
         print(jmeterPath)
 
-        reportVar = content['reports']
-        reportPath = reportVar[0]
-        print(reportPath)
-
-        scriptVar = content['scripts']
-        #global chrome_script_path
-        #global firefox_script_path
-        for scriptpath in scriptVar:
-
-            if "chrome" in scriptpath:
-
-                print(chrome_script_path)
-                chrome_script_path = scriptpath['chrome']
-            elif "firefox" in scriptpath:
-
-                print(firefox_script_path)
-                firefox_script_path = scriptpath['firefox']
-
-        print(chrome_script_path,firefox_script_path)
 
     except yaml.YAMLError as exc:
         print(exc)
@@ -76,9 +42,8 @@ def jmeter_exection(iteration, rampup, concurrency, filepath):
     t = Timer(timeout, timeoutmethod)
 
     os.chdir(jmeterPath)
-    reportdir = filecreation()
     t.start()
-    os.system("jmeter.bat -n -t"+ filepath+" -l "+reportdir+"\log.csv -r -Gusers="+str(concurrency)+" -GrampUp="+str(rampup)+" -Gcount="+str(iteration))
+    os.system("jmeter.bat -n -t"+ filepath+" -r -Gusers="+str(concurrency)+" -GrampUp="+str(rampup)+" -Gcount="+str(iteration))
     print("executed")
 
 
@@ -102,7 +67,7 @@ def read_n_write_ip():
     x.close()
 
 
-with open("Input/input.yaml", 'r') as stream:
+with open("Input/Input.yaml", 'r') as stream:
     global concurrency
     concurrency = 1
     iteration = 1
@@ -128,7 +93,7 @@ with open("Input/input.yaml", 'r') as stream:
                     rampup = var['ramp-up']
 
                     if(isinstance(rampup,int)):
-                        pass
+                        rampup =int(rampup)*60
 
                     elif "m" in rampup:
                         rampup = rampup.replace("m","")
@@ -146,8 +111,6 @@ with open("Input/input.yaml", 'r') as stream:
             with open(jmeterPath+'\\Inputdatas.csv', 'rb') as f:
                 reader = csv.reader(f)
                 for row in reader:
-                    # row is a list of strings
-                    # use string.join to put them together
                     row[0]=url
                     print (', '.join(row))
 
