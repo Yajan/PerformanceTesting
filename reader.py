@@ -41,11 +41,11 @@ def timeoutmethod():
 
 
 def jmeter_exection(iteration, rampup, concurrency, filepath):
-    t = Timer(timeout, timeoutmethod)
+    #t = Timer(timeout, timeoutmethod)
 
     os.chdir(jmeterPath)
-    t.start()
-    #os.system("jmeter.bat -n -t"+ filepath+" -r -Gusers="+str(concurrency)+" -GrampUp="+str(rampup)+" -Gcount="+str(iteration))
+    #t.start()
+    os.system("jmeter.bat -n -t"+ filepath+" -r -Gusers="+str(concurrency)+" -GrampUp="+str(rampup)+" -Gcount="+str(iteration))
     print("executed")
 
 
