@@ -340,7 +340,7 @@ WDS.log.info(&quot;Exception occure:File not uploaded&quot;);&#xd;
 &#xd;
 WDS.sampleResult.sampleEnd();</stringProp>
             <stringProp name="WebDriverSampler.parameters"></stringProp>
-            <stringProp name="WebDriverSampler.language">javascript</stringProp>
+            <stringProp name="WebDriverSampler.language">beanshell</stringProp>
           </com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler>
           <hashTree/>
           <com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler guiclass="com.googlecode.jmeter.plugins.webdriver.sampler.gui.WebDriverSamplerGui" testclass="com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler" testname="jp@gc - WebDriver Sampler" enabled="true">
