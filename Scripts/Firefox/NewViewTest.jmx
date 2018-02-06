@@ -309,7 +309,6 @@ var vars = org.apache.jmeter.threads.JMeterContextService.getContext().getVariab
     &#xd;
 WDS.browser.executeScript(&quot;document.querySelector(&apos;.fileSelectHiddenInput&apos;).setAttribute(&apos;style&apos;,display=&apos;block&apos;,&apos;opacity:1; width:10px; height:10px; z-index:100&apos;)&quot;,new Object[] {&quot;&quot;});&#xd;
 filelocation=&quot;C:\\Users\\Administrator\\Documents\\apache-jmeter-3.3\\bin\\Testfiles\\CSVoffice_main.csv&quot;;&#xd;
-filelocation=&quot;C:\\Users\\Deepak\\Documents\\apache-jmeter-3.3\\apache-jmeter-3.3\\bin\\Testfiles\\CSVoffice_main.csv&quot;;&#xd;
 WDS.log.info(filelocation);&#xd;
 file1.sendKeys(new String[] {filelocation});&#xd;
     WebDriverWait wait2= new WebDriverWait(WDS.browser,300);&#xd;
