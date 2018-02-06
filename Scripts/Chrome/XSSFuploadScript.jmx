@@ -18,7 +18,7 @@
           <stringProp name="LoopController.loops">${__P(count,1)}</stringProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">${__P(users,1)}</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">${__P(rampup,2)}</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">${__P(rampup,0)}</stringProp>
         <longProp name="ThreadGroup.start_time">1514375240000</longProp>
         <longProp name="ThreadGroup.end_time">1514375240000</longProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
