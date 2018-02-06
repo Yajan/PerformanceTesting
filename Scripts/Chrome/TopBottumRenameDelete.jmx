@@ -83,7 +83,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;&#xd;
 import org.openqa.selenium.support.ui.ExpectedConditions;&#xd;
 &#xd;
 var vars = org.apache.jmeter.threads.JMeterContextService.getContext().getVariables();&#xd;
-WebDriverWait wait= new WebDriverWait(WDS.browser,10);&#xd;
+WebDriverWait wait= new WebDriverWait(WDS.browser,100);&#xd;
 vars.put(&quot;Itr&quot;,String.valueOf(&quot;${__BeanShell(vars.getIteration(),)}&quot;));&#xd;
 vars.put(&quot;usr&quot;,String.valueOf(&quot;${__threadNum}&quot;));&#xd;
 vars.put(&quot;overlay&quot;,&quot;0&quot;);&#xd;
@@ -220,7 +220,7 @@ import java.util.concurrent.TimeUnit;&#xd;
 import java.util.List;&#xd;
 import org.openqa.selenium.support.ui.WebDriverWait;&#xd;
 import org.openqa.selenium.support.ui.ExpectedConditions;&#xd;
-WebDriverWait wait= new WebDriverWait(WDS.browser,20);&#xd;
+WebDriverWait wait= new WebDriverWait(WDS.browser,100);&#xd;
 WDS.sampleResult.sampleStart();&#xd;
 var vars = org.apache.jmeter.threads.JMeterContextService.getContext().getVariables();&#xd;
 try{&#xd;
@@ -291,7 +291,7 @@ import java.nio.file.Path;&#xd;
 import java.nio.file.Paths;&#xd;
 import org.openqa.selenium.support.ui.WebDriverWait;&#xd;
 import org.openqa.selenium.support.ui.ExpectedConditions;&#xd;
-WebDriverWait wait= new WebDriverWait(WDS.browser,30);&#xd;
+WebDriverWait wait= new WebDriverWait(WDS.browser,100);&#xd;
 WDS.sampleResult.sampleStart();&#xd;
 &#xd;
 String winHandleBefore=null;&#xd;
@@ -450,7 +450,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
-WebDriverWait wait= new WebDriverWait(WDS.browser,30);
+WebDriverWait wait= new WebDriverWait(WDS.browser,120);
 
 
 var vars = org.apache.jmeter.threads.JMeterContextService.getContext().getVariables();
@@ -583,7 +583,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
-WebDriverWait wait= new WebDriverWait(WDS.browser,30);
+WebDriverWait wait= new WebDriverWait(WDS.browser,120);
 WDS.sampleResult.sampleStart();
 
 
