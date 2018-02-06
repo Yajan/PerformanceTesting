@@ -13,7 +13,7 @@ browsers:
 execution:
   - concurrency: 2
   - ramp-up: 1
-  - iterations: 2
+  - iteration: 2
 
 time-out:
   - 10m
