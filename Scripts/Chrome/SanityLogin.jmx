@@ -219,7 +219,7 @@ try{&#xd;
     try{&#xd;
         try{&#xd;
            //Checking for the invisibility of blanck page if there are no data in the application&#xd;
-                 wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;//div[@class=&apos;no-data&apos;]&quot;)));&#xd;
+                 wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(&quot;//div[@class=&apos;no-data&apos;]&quot;)));&#xd;
         }catch(Exception e){&#xd;
             //If There is no data in the application uploading a new file.&#xd;
             if(WDS.browser.findElement(By.xpath(&quot;//div[@class=&apos;no-data&apos;]&quot;)).isDisplayed()){&#xd;
