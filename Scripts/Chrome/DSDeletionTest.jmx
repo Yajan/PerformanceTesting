@@ -15,7 +15,7 @@
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
-          <stringProp name="LoopController.loops">${__P(count,2)}</stringProp>
+          <stringProp name="LoopController.loops">${__P(count,1)}</stringProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">${__P(users,1)}</stringProp>
         <stringProp name="ThreadGroup.ramp_time">${__P(rampup,0)}</stringProp>
@@ -232,7 +232,7 @@ import java.util.concurrent.TimeUnit;&#xd;
 import java.util.List;&#xd;
 import org.openqa.selenium.support.ui.WebDriverWait;&#xd;
 import org.openqa.selenium.support.ui.ExpectedConditions;&#xd;
-WebDriverWait wait= new WebDriverWait(WDS.browser,120);&#xd;
+WebDriverWait wait= new WebDriverWait(WDS.browser,300);&#xd;
 WDS.sampleResult.sampleStart();&#xd;
 var vars = org.apache.jmeter.threads.JMeterContextService.getContext().getVariables();&#xd;
 try{&#xd;
@@ -304,7 +304,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 var vars = org.apache.jmeter.threads.JMeterContextService.getContext().getVariables();
-WebDriverWait wait= new WebDriverWait(WDS.browser,120);
+WebDriverWait wait= new WebDriverWait(WDS.browser,300);
 WDS.sampleResult.sampleStart();
 
 try{
@@ -419,7 +419,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
 
-WebDriverWait wait= new WebDriverWait(WDS.browser,120);
+WebDriverWait wait= new WebDriverWait(WDS.browser,300);
 WDS.sampleResult.sampleStart();
 var vars = org.apache.jmeter.threads.JMeterContextService.getContext().getVariables();
 
