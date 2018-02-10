@@ -15,10 +15,10 @@
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
-          <stringProp name="LoopController.loops">${__P(count,2)}</stringProp>
+          <stringProp name="LoopController.loops">${__P(count,1)}</stringProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">${__P(users,1)}</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">${__P(rampup,2)}</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">${__P(rampup,1)}</stringProp>
         <longProp name="ThreadGroup.start_time">1514352769000</longProp>
         <longProp name="ThreadGroup.end_time">1514352769000</longProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
@@ -43,6 +43,28 @@
           <boolProp name="TransactionController.parent">false</boolProp>
         </TransactionController>
         <hashTree>
+          <com.googlecode.jmeter.plugins.webdriver.config.FirefoxDriverConfig guiclass="com.googlecode.jmeter.plugins.webdriver.config.gui.FirefoxDriverConfigGui" testclass="com.googlecode.jmeter.plugins.webdriver.config.FirefoxDriverConfig" testname="jp@gc - Firefox Driver Config" enabled="true">
+            <stringProp name="WebDriverConfig.proxy_type">SYSTEM</stringProp>
+            <stringProp name="WebDriverConfig.proxy_pac_url"></stringProp>
+            <stringProp name="WebDriverConfig.http_host"></stringProp>
+            <intProp name="WebDriverConfig.http_port">8080</intProp>
+            <boolProp name="WebDriverConfig.use_http_for_all_protocols">true</boolProp>
+            <stringProp name="WebDriverConfig.https_host"></stringProp>
+            <intProp name="WebDriverConfig.https_port">8080</intProp>
+            <stringProp name="WebDriverConfig.ftp_host"></stringProp>
+            <intProp name="WebDriverConfig.ftp_port">8080</intProp>
+            <stringProp name="WebDriverConfig.socks_host"></stringProp>
+            <intProp name="WebDriverConfig.socks_port">8080</intProp>
+            <stringProp name="WebDriverConfig.no_proxy">localhost</stringProp>
+            <boolProp name="WebDriverConfig.maximize_browser">true</boolProp>
+            <boolProp name="WebDriverConfig.reset_per_iteration">false</boolProp>
+            <boolProp name="WebDriverConfig.dev_mode">false</boolProp>
+            <boolProp name="FirefoxDriverConfig.general.useragent.override.enabled">false</boolProp>
+            <boolProp name="FirefoxDriverConfig.network.negotiate-auth.allow-insecure-ntlm-v1">false</boolProp>
+            <collectionProp name="FirefoxDriverConfig.general.extensions"/>
+            <collectionProp name="FirefoxDriverConfig.general.preferences"/>
+          </com.googlecode.jmeter.plugins.webdriver.config.FirefoxDriverConfig>
+          <hashTree/>
           <com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler guiclass="com.googlecode.jmeter.plugins.webdriver.sampler.gui.WebDriverSamplerGui" testclass="com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler" testname="jp@gc - WebDriver Sampler" enabled="true">
             <stringProp name="WebDriverSampler.script">import org.apache.jmeter.services.FileServer;&#xd;
 import org.openqa.selenium;&#xd;
@@ -63,7 +85,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;&#xd;
 import org.openqa.selenium.support.ui.ExpectedConditions;&#xd;
 &#xd;
 var vars = org.apache.jmeter.threads.JMeterContextService.getContext().getVariables();&#xd;
-WebDriverWait wait= new WebDriverWait(WDS.browser,30);&#xd;
+WebDriverWait wait= new WebDriverWait(WDS.browser,200);&#xd;
 vars.put(&quot;Itr&quot;,String.valueOf(&quot;${__BeanShell(vars.getIteration(),)}&quot;));&#xd;
 vars.put(&quot;usr&quot;,String.valueOf(&quot;${__threadNum}&quot;));&#xd;
 vars.put(&quot;overlay&quot;,&quot;0&quot;);&#xd;
@@ -190,7 +212,7 @@ import java.util.concurrent.TimeUnit;&#xd;
 import java.util.List;&#xd;
 import org.openqa.selenium.support.ui.WebDriverWait;&#xd;
 import org.openqa.selenium.support.ui.ExpectedConditions;&#xd;
-WebDriverWait wait= new WebDriverWait(WDS.browser,20);&#xd;
+WebDriverWait wait= new WebDriverWait(WDS.browser,60);&#xd;
 WDS.sampleResult.sampleStart();&#xd;
 var vars = org.apache.jmeter.threads.JMeterContextService.getContext().getVariables();&#xd;
 try{&#xd;
@@ -257,7 +279,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-WebDriverWait wait= new WebDriverWait(WDS.browser,30);
+WebDriverWait wait= new WebDriverWait(WDS.browser,200);
 
 WDS.sampleResult.sampleStart();
 var vars = org.apache.jmeter.threads.JMeterContextService.getContext().getVariables();
@@ -329,8 +351,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-WebDriverWait wait = new WebDriverWait(WDS.browser,30);
-WebDriverWait wait2 = new WebDriverWait(WDS.browser,60);
+WebDriverWait wait = new WebDriverWait(WDS.browser,200);
+WebDriverWait wait2 = new WebDriverWait(WDS.browser,200);
 long oldTimeForProgress=System.currentTimeMillis();
 
 WDS.sampleResult.sampleStart();
@@ -467,7 +489,7 @@ try{
                 ex.printStackTrace();
             }
     EndTime=LocalDateTime.now();
-    f = new FileOutputStream(&quot;TimestampsFolder/Timestamp&quot;+vars.get(&quot;ip&quot;)+&quot;.txt&quot;,true); 
+    f = new FileOutputStream(&quot;TimestampsFolder/Timestamp_URLupload_&quot;+vars.get(&quot;ip&quot;)+&quot;.txt&quot;,true); 
     p = new PrintStream(f);
     WDS.log.info(&quot; EndTime = &quot;+EndTime);
     WDS.sampleResult.sampleEnd();
@@ -493,28 +515,6 @@ try{
             <stringProp name="WebDriverSampler.parameters"></stringProp>
             <stringProp name="WebDriverSampler.language">beanshell</stringProp>
           </com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler>
-          <hashTree/>
-          <com.googlecode.jmeter.plugins.webdriver.config.FirefoxDriverConfig guiclass="com.googlecode.jmeter.plugins.webdriver.config.gui.FirefoxDriverConfigGui" testclass="com.googlecode.jmeter.plugins.webdriver.config.FirefoxDriverConfig" testname="jp@gc - Firefox Driver Config" enabled="true">
-            <stringProp name="WebDriverConfig.proxy_type">SYSTEM</stringProp>
-            <stringProp name="WebDriverConfig.proxy_pac_url"></stringProp>
-            <stringProp name="WebDriverConfig.http_host"></stringProp>
-            <intProp name="WebDriverConfig.http_port">8080</intProp>
-            <boolProp name="WebDriverConfig.use_http_for_all_protocols">true</boolProp>
-            <stringProp name="WebDriverConfig.https_host"></stringProp>
-            <intProp name="WebDriverConfig.https_port">8080</intProp>
-            <stringProp name="WebDriverConfig.ftp_host"></stringProp>
-            <intProp name="WebDriverConfig.ftp_port">8080</intProp>
-            <stringProp name="WebDriverConfig.socks_host"></stringProp>
-            <intProp name="WebDriverConfig.socks_port">8080</intProp>
-            <stringProp name="WebDriverConfig.no_proxy">localhost</stringProp>
-            <boolProp name="WebDriverConfig.maximize_browser">true</boolProp>
-            <boolProp name="WebDriverConfig.reset_per_iteration">false</boolProp>
-            <boolProp name="WebDriverConfig.dev_mode">false</boolProp>
-            <boolProp name="FirefoxDriverConfig.general.useragent.override.enabled">false</boolProp>
-            <boolProp name="FirefoxDriverConfig.network.negotiate-auth.allow-insecure-ntlm-v1">false</boolProp>
-            <collectionProp name="FirefoxDriverConfig.general.extensions"/>
-            <collectionProp name="FirefoxDriverConfig.general.preferences"/>
-          </com.googlecode.jmeter.plugins.webdriver.config.FirefoxDriverConfig>
           <hashTree/>
         </hashTree>
       </hashTree>

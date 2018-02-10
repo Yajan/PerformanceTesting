@@ -15,10 +15,10 @@
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
-          <stringProp name="LoopController.loops">${__P(count,2)}</stringProp>
+          <stringProp name="LoopController.loops">${__P(count,1)}</stringProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">${__P(users,3)}</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">${__P(rampup,0)}</stringProp>
+        <stringProp name="ThreadGroup.num_threads">${__P(users,1)}</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">${__P(rampup,1)}</stringProp>
         <longProp name="ThreadGroup.start_time">1514456352000</longProp>
         <longProp name="ThreadGroup.end_time">1514456352000</longProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
@@ -71,6 +71,7 @@ import org.openqa.selenium;&#xd;
 import java.time.temporal.ChronoUnit;&#xd;
 import java.time.format.DateTimeFormatter;  &#xd;
 import java.time.LocalDateTime;   &#xd;
+import java.io.*;&#xd;
 import org.openqa.selenium.WebElement;&#xd;
 import org.openqa.selenium.By;&#xd;
 import java.io.IOException;&#xd;
@@ -85,17 +86,32 @@ import org.openqa.selenium.support.ui.WebDriverWait;&#xd;
 import org.openqa.selenium.support.ui.ExpectedConditions;&#xd;
 &#xd;
 var vars = org.apache.jmeter.threads.JMeterContextService.getContext().getVariables();&#xd;
-WebDriverWait wait= new WebDriverWait(WDS.browser,10);&#xd;
+WebDriverWait wait= new WebDriverWait(WDS.browser,200);&#xd;
 vars.put(&quot;Itr&quot;,String.valueOf(&quot;${__BeanShell(vars.getIteration(),)}&quot;));&#xd;
 vars.put(&quot;usr&quot;,String.valueOf(&quot;${__threadNum}&quot;));&#xd;
 vars.put(&quot;overlay&quot;,&quot;0&quot;);&#xd;
 vars.put(&quot;login&quot;,&quot;0&quot;);&#xd;
 vars.put(&quot;Deletion&quot;,&quot;0&quot;);&#xd;
 vars.put(&quot;logout&quot;,&quot;0&quot;);&#xd;
+vars.put(&quot;ip&quot;,&quot;0&quot;);&#xd;
 WDS.sampleResult.sampleStart();&#xd;
 //Script Starts from here&#xd;
+        try {&#xd;
+               InetAddress ipAddr = InetAddress.getLocalHost();&#xd;
+vars.put(&quot;ip&quot;,String.valueOf(ipAddr.getHostAddress()));&#xd;
+                } catch (UnknownHostException ex) {&#xd;
+                    ex.printStackTrace();&#xd;
+                }&#xd;
 vars.put(&quot;StartTime&quot;,String.valueOf(LocalDateTime.now()));&#xd;
-&#xd;
+    String currDir  = System.getProperty(&quot;user.dir&quot;);&#xd;
+    File file =new File(currDir);&#xd;
+vars.put(&quot;IP&quot;,vars.get(&quot;ip&quot;).replace(&quot;.&quot;,&quot;_&quot;));&#xd;
+command =new String[] {&quot;cmd.exe&quot;, &quot;/c&quot;, &quot;fsutil file createnew Csvoffice_Main&quot;+vars.get(&quot;usr&quot;)+&quot;U&quot;+vars.get(&quot;Itr&quot;)+&quot;I&quot;+vars.get(&quot;IP&quot;)+&quot;.csv 21360&quot;};&#xd;
+ProcessBuilder builder = new ProcessBuilder(command);&#xd;
+p = builder.start();&#xd;
+path=&quot;//h5//span[contains(.,&apos;Csvoffice_Main&quot;+vars.get(&quot;usr&quot;)+&quot;U&quot;+vars.get(&quot;Itr&quot;)+&quot;I&quot;+vars.get(&quot;IP&quot;)+&quot;&apos;)]&quot;;&#xd;
+vars.put(&quot;path&quot;,path);&#xd;
+WDS.log.info(&quot;path is &quot;+vars.get(&quot;path&quot;));&#xd;
 //Launcing application&#xd;
 WDS.browser.get(&quot;${MainUrl}&quot;);&#xd;
 &#xd;
@@ -218,7 +234,7 @@ import java.util.concurrent.TimeUnit;&#xd;
 import java.util.List;&#xd;
 import org.openqa.selenium.support.ui.WebDriverWait;&#xd;
 import org.openqa.selenium.support.ui.ExpectedConditions;&#xd;
-WebDriverWait wait= new WebDriverWait(WDS.browser,20);&#xd;
+WebDriverWait wait= new WebDriverWait(WDS.browser,60);&#xd;
 WDS.sampleResult.sampleStart();&#xd;
 var vars = org.apache.jmeter.threads.JMeterContextService.getContext().getVariables();&#xd;
 try{&#xd;
@@ -266,6 +282,166 @@ WDS.sampleResult.sampleEnd();&#xd;
           </com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler>
           <hashTree/>
           <com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler guiclass="com.googlecode.jmeter.plugins.webdriver.sampler.gui.WebDriverSamplerGui" testclass="com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler" testname="jp@gc - WebDriver Sampler" enabled="true">
+            <stringProp name="WebDriverSampler.script">import org.apache.jmeter.services.FileServer;&#xd;
+import org.openqa.selenium;&#xd;
+import org.openqa.selenium.JavascriptExecutor;&#xd;
+import org.openqa.selenium.interactions.Action;&#xd;
+import org.openqa.selenium.interactions.Actions;&#xd;
+import java.io;&#xd;
+import java.io.File;&#xd;
+import java.awt.datatransfer.StringSelection;&#xd;
+import java.time.temporal.ChronoUnit;&#xd;
+import java.time.format.DateTimeFormatter;  &#xd;
+import java.time.LocalDateTime;   &#xd;
+import org.apache.commons.io.FileUtils;&#xd;
+import org.openqa.selenium.OutputType;&#xd;
+import org.openqa.selenium.TakesScreenshot;&#xd;
+import org.openqa.selenium.WebElement;&#xd;
+import org.openqa.selenium.By;&#xd;
+import java.io.FileReader;&#xd;
+import java.io.BufferedReader;&#xd;
+import java.io.FileWriter;&#xd;
+import java.util.concurrent.TimeUnit;&#xd;
+import java.util.ArrayList;&#xd;
+import java.util.List;&#xd;
+import java.nio.file.Path;&#xd;
+import java.nio.file.Paths;&#xd;
+import org.openqa.selenium.support.ui.WebDriverWait;&#xd;
+import org.openqa.selenium.support.ui.ExpectedConditions;&#xd;
+WebDriverWait wait= new WebDriverWait(WDS.browser,300);&#xd;
+WDS.sampleResult.sampleStart();&#xd;
+&#xd;
+String winHandleBefore=null;&#xd;
+var vars = org.apache.jmeter.threads.JMeterContextService.getContext().getVariables();&#xd;
+&#xd;
+try{&#xd;
+//uploading a .csv file to application here after clicking upload button&#xd;
+ for(int i =0;i&lt;5;i++){&#xd;
+    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;//ul[@class=&apos;menu-main&apos;]/child::li&quot;)));&#xd;
+    wait.until(ExpectedConditions.elementToBeClickable(By.xpath(&quot;//ul[@class=&apos;menu-main&apos;]/child::li&quot;))).click();&#xd;
+    start=LocalDateTime.now();&#xd;
+    String currDir  = System.getProperty(&quot;user.dir&quot;);&#xd;
+    File file =new File(currDir);&#xd;
+    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;//p[@class=&apos;btn btn-outline&apos;]&quot;)));&#xd;
+    Thread.sleep(5000);&#xd;
+    file1= WDS.browser.findElement(By.xpath(&quot;//input[contains(@class,&apos;fileSelectHiddenInput&apos;)]&quot;));&#xd;
+    &#xd;
+WDS.browser.executeScript(&quot;document.querySelector(&apos;.fileSelectHiddenInput&apos;).setAttribute(&apos;style&apos;,display=&apos;block&apos;,&apos;opacity:1; width:10px; height:10px; z-index:100&apos;)&quot;,new Object[] {&quot;&quot;});&#xd;
+filelocation=&quot;C:\\Users\\Administrator\\Documents\\apache-jmeter-3.3\\bin\\CSVoffice_main&quot;+vars.get(&quot;usr&quot;)+&quot;U&quot;+vars.get(&quot;Itr&quot;)+&quot;I&quot;+vars.get(&quot;IP&quot;)+&quot;.csv&quot;;&#xd;
+WDS.log.info(filelocation);&#xd;
+file1.sendKeys(new String[] {filelocation});&#xd;
+}&#xd;
+    //sending file to upload to application&#xd;
+    start=LocalDateTime.now();&#xd;
+    WebDriverWait wait2= new WebDriverWait(WDS.browser,300);&#xd;
+    oldTimeForProgress=LocalDateTime.now();&#xd;
+    start=LocalDateTime.now();&#xd;
+    try{&#xd;
+        //checking the progress of uploaded file&#xd;
+        wait2.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(&quot;//div[@class=&apos;progress progress-mini&apos;]&quot;)));&#xd;
+        WDS.log.info(&quot;--------------------------------Progress bar gets invisible now-------------------&quot;);&#xd;
+        &#xd;
+        end=LocalDateTime.now();&#xd;
+        Long minutesBetween=ChronoUnit.MILLIS.between(start,end);&#xd;
+        String Timestamp = Long.toString(minutesBetween);&#xd;
+        vars.put(&quot;Fileupload&quot;,String.valueOf(minutesBetween));&#xd;
+    &#xd;
+    }&#xd;
+    catch(Exception e)&#xd;
+    {&#xd;
+         WDS.log.info(&quot;Uploading  a file named : &quot;+&quot;CSVoffice_main.csv&quot;);&#xd;
+    &#xd;
+        end=LocalDateTime.now();&#xd;
+    	Long minutesBetween=ChronoUnit.MILLIS.between(start,end);&#xd;
+    	vars.put(&quot;Fileupload&quot;,String.valueOf(minutesBetween));&#xd;
+    }&#xd;
+&#xd;
+    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;//h5//span[contains(.,&apos;Csvoffice_&apos;)]&quot;)));	&#xd;
+    winHandleBefore = WDS.browser.getWindowHandle();&#xd;
+    Actions action = new Actions(WDS.browser);&#xd;
+    Thread.sleep(3000);&#xd;
+    WDS.log.info(&quot;Clicked on open button&quot;);&#xd;
+    for(String winHandle : WDS.browser.getWindowHandles()){&#xd;
+    	if(!winHandle.equals(winHandleBefore)){&#xd;
+    				WDS.browser.switchTo().window(winHandle);&#xd;
+    	}&#xd;
+    }&#xd;
+&#xd;
+    TEN_SECONDS=13*1000;&#xd;
+    WDS.browser.manage().timeouts().implicitlyWait(6, TimeUnit.SECONDS); &#xd;
+    oldTime=LocalDateTime.now();&#xd;
+    try{&#xd;
+        //checking for the overlay element&#xd;
+         while(WDS.browser.findElement(By.xpath(&quot;//spinner[@class=&apos;html5spinner ng-scope&apos;]&quot;)).isDisplayed()){&#xd;
+    &#xd;
+        WDS.log.info(&quot;overlay is there&quot;);	&#xd;
+        Long minutesBetween=ChronoUnit.MILLIS.between(oldTime,LocalDateTime.now());&#xd;
+        if(minutesBetween&gt;TEN_SECONDS){&#xd;
+        WDS.browser.navigate().refresh();&#xd;
+        oldTimeAfterRefresh=LocalDateTime.now();&#xd;
+    //again find overlay after refreshing&#xd;
+    try{&#xd;
+        //checking for the overlay element&#xd;
+        while(WDS.browser.findElement(By.xpath(&quot;//spinner[@class=&apos;html5spinner ng-scope&apos;]&quot;)).isDisplayed()){&#xd;
+        Long minutesBetween=ChronoUnit.MILLIS.between(oldTimeAfterRefresh,LocalDateTime.now());&#xd;
+        if(minutesBetween&gt;TEN_SECONDS){&#xd;
+              break outerloop;&#xd;
+             }&#xd;
+        else {&#xd;
+          WDS.log.info(&quot;Overlay is there&quot;);&#xd;
+            }&#xd;
+          }&#xd;
+    }&#xd;
+    catch(Exception e){&#xd;
+    	WDS.log.info(&quot;Exception :Overlay is not present After refreshing&quot;);	&#xd;
+    	end=LocalDateTime.now();&#xd;
+    	Long minutesBetween=ChronoUnit.MILLIS.between(start,end);&#xd;
+    	vars.put(&quot;NewWindow&quot;,String.valueOf(minutesBetween));&#xd;
+    //Overlay is not present on screen but test should mark as fail,as it required browser refresh to work.&#xd;
+    }&#xd;
+    }&#xd;
+    }&#xd;
+    WDS.log.info(&quot;Overlay is invisible now&quot;);&#xd;
+    end=LocalDateTime.now();&#xd;
+    Long minutesBetween=ChronoUnit.MILLIS.between(start,end);&#xd;
+    vars.put(&quot;NewWindow&quot;,String.valueOf(minutesBetween));&#xd;
+    }&#xd;
+    catch(Exception e){&#xd;
+    	WDS.log.info(&quot;Exception :Overlay element id is not present.&quot;);&#xd;
+    	end=LocalDateTime.now();&#xd;
+    	Long minutesBetween=ChronoUnit.MILLIS.between(start,end);&#xd;
+    	vars.put(&quot;NewWindow&quot;,String.valueOf(minutesBetween));    //taking time stamp&#xd;
+    	break outerloop;&#xd;
+    	}&#xd;
+&#xd;
+&#xd;
+}&#xd;
+catch(Exception e)&#xd;
+{&#xd;
+       // Getting IP and and taking screenshot&#xd;
+    try {&#xd;
+           InetAddress ipAddr = InetAddress.getLocalHost();&#xd;
+           ip= String.valueOf(ipAddr.getHostAddress());&#xd;
+            } catch (UnknownHostException ex) {&#xd;
+                ex.printStackTrace();&#xd;
+            }&#xd;
+    File src= ((TakesScreenshot)WDS.browser).getScreenshotAs(OutputType.FILE);&#xd;
+    try {&#xd;
+     // now copy the  screenshot to desired location using copyFile //method&#xd;
+        FileUtils.copyFile(src, new File(&quot;Reporting/&quot;+ip+&quot;NewViewTest_upload&quot;+vars.get(&quot;Itr&quot;)+&quot;i&quot;+vars.get(&quot;usr&quot;)+&quot;u&quot;+&quot;.png&quot;));&#xd;
+    }&#xd;
+    catch (IOException e)&#xd;
+     {&#xd;
+       WDS.log.info(&quot;something wrong&quot;);&#xd;
+     }&#xd;
+}&#xd;
+&#xd;
+WDS.sampleResult.sampleEnd();    </stringProp>
+            <stringProp name="WebDriverSampler.parameters"></stringProp>
+            <stringProp name="WebDriverSampler.language">beanshell</stringProp>
+          </com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler>
+          <hashTree/>
+          <com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler guiclass="com.googlecode.jmeter.plugins.webdriver.sampler.gui.WebDriverSamplerGui" testclass="com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler" testname="jp@gc - WebDriver Sampler" enabled="true">
             <stringProp name="WebDriverSampler.script">import org.apache.jmeter.services.FileServer;
 import org.openqa.selenium;
 import org.openqa.selenium.support.ui.Select;
@@ -294,7 +470,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
 
-WebDriverWait wait= new WebDriverWait(WDS.browser,30);
+WebDriverWait wait= new WebDriverWait(WDS.browser,360);
 WDS.sampleResult.sampleStart();
 var vars = org.apache.jmeter.threads.JMeterContextService.getContext().getVariables();
 
@@ -309,8 +485,14 @@ try{
 //Selecting multiple datasets to delete
     for(int i =0;i&lt;5;i++){
     	Actions actions = new Actions(WDS.browser);
-    	actions.keyDown(Keys.CONTROL).click(waitforallDS.until(ExpectedConditions.presenceOfAllElementsLocatedBy((By.xpath(&quot;//h5//span&quot;)))).get(i)).keyUp(Keys.CONTROL).build().perform();
+try{
+    	actions.keyDown(Keys.CONTROL).click(waitforallDS.until(ExpectedConditions.presenceOfAllElementsLocatedBy((By.xpath(vars.get(&quot;path&quot;))))).get(i)).keyUp(Keys.CONTROL).build().perform();
 	}
+catch(Exception e)
+{
+WDS.log.info(&quot;Not able to select&quot;);
+}	
+}
     WDS.log.info(&quot;------------Multiple DS  has been selected to delete---------&quot;);
     WDS.log.info(&quot;Now find selected item list section &quot;);
     }
@@ -464,7 +646,8 @@ try{
          }
 }
  finally{
-       try {
+
+        try {
            InetAddress ipAddr = InetAddress.getLocalHost();
           vars.put(&quot;ip&quot;,String.valueOf(ipAddr.getHostAddress()));
 

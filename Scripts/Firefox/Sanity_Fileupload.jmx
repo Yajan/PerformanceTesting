@@ -15,7 +15,7 @@
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
-          <stringProp name="LoopController.loops">${__P(count,2)}</stringProp>
+          <stringProp name="LoopController.loops">${__P(count,1)}</stringProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">${__P(users,1)}</stringProp>
         <stringProp name="ThreadGroup.ramp_time">${__P(rampup,1)}</stringProp>
@@ -85,7 +85,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;&#xd;
 import org.openqa.selenium.support.ui.ExpectedConditions;&#xd;
 &#xd;
 var vars = org.apache.jmeter.threads.JMeterContextService.getContext().getVariables();&#xd;
-WebDriverWait wait= new WebDriverWait(WDS.browser,10);&#xd;
+WebDriverWait wait= new WebDriverWait(WDS.browser,200);&#xd;
 vars.put(&quot;Itr&quot;,String.valueOf(&quot;${__BeanShell(vars.getIteration(),)}&quot;));&#xd;
 vars.put(&quot;usr&quot;,String.valueOf(&quot;${__threadNum}&quot;));&#xd;
 vars.put(&quot;overlay&quot;,&quot;0&quot;);&#xd;
@@ -219,7 +219,7 @@ import org.testng.asserts.SoftAssert;&#xd;
 import java.util.List;&#xd;
 import org.openqa.selenium.support.ui.WebDriverWait;&#xd;
 import org.openqa.selenium.support.ui.ExpectedConditions;&#xd;
-WebDriverWait wait= new WebDriverWait(WDS.browser,30);&#xd;
+WebDriverWait wait= new WebDriverWait(WDS.browser,60);&#xd;
 WDS.sampleResult.sampleStart();&#xd;
 try{&#xd;
 try{&#xd;
@@ -253,151 +253,158 @@ WDS.sampleResult.sampleEnd();&#xd;
           </com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler>
           <hashTree/>
           <com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler guiclass="com.googlecode.jmeter.plugins.webdriver.sampler.gui.WebDriverSamplerGui" testclass="com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler" testname="jp@gc - WebDriver Sampler" enabled="true">
-            <stringProp name="WebDriverSampler.script">import org.apache.jmeter.services.FileServer;
-import org.openqa.selenium;
-import java.awt.Robot;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.interactions.Action;
-import org.openqa.selenium.interactions.Actions;
-import java.awt.Toolkit;
-import java.io;
-import java.io.File;
-import java.awt.datatransfer.StringSelection;
-import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.firefox.FirefoxProfile;
-import java.time.temporal.ChronoUnit;
-import java.time.format.DateTimeFormatter;  
-import java.time.LocalDateTime;   
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.By;
-import java.io.FileReader;
-import java.io.BufferedReader;
-import java.io.FileWriter;
-import java.util.concurrent.TimeUnit;
-import java.util.ArrayList;
-import org.testng.asserts.SoftAssert;
-import java.util.List;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-WebDriverWait wait= new WebDriverWait(WDS.browser,10);
-WDS.sampleResult.sampleStart();
-var vars = org.apache.jmeter.threads.JMeterContextService.getContext().getVariables();
-try{
-    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;//ul[@class=&apos;menu-main&apos;]/child::li&quot;)));
-    wait.until(ExpectedConditions.elementToBeClickable(By.xpath(&quot;//ul[@class=&apos;menu-main&apos;]/child::li&quot;))).click();
-    start=LocalDateTime.now();
-    String currDir  = System.getProperty(&quot;user.dir&quot;);
-    File file =new File(currDir);
-    Thread.sleep(5000);
-    file1= WDS.browser.findElement(By.xpath(&quot;//input[contains(@class,&apos;fileSelectHiddenInput&apos;)]&quot;));
-
-WDS.browser.executeScript(&quot;document.querySelector(&apos;.fileSelectHiddenInput&apos;).setAttribute(&apos;style&apos;,display=&apos;block&apos;,&apos;opacity:1; width:10px; height:10px; z-index:100&apos;)&quot;,new Object[] {&quot;&quot;});
-filelocation=&quot;C:\\Users\\Administrator\\Documents\\apache-jmeter-3.3\\bin\\Testfiles\\CSVoffice_main.csv&quot;;&#xd;
-WDS.log.info(filelocation);
-file1.sendKeys(new String[] {filelocation});
-    WebDriverWait wait2= new WebDriverWait(WDS.browser,300);
-    oldTimeForProgress=LocalDateTime.now();
-    try{
-    //After upload checking the uploading status
-        wait2.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(&quot;//div[@class=&apos;progress progress-mini&apos;]&quot;)));
-        WDS.log.info(&quot;--------------------------------Progress bar gets invisible now-------------------&quot;);
-        
-        end=LocalDateTime.now();
-        Long minutesBetween=ChronoUnit.MILLIS.between(start,end);
-        String Timestamp = Long.toString(minutesBetween);
-        //Getting the time stamps of uploaded file
-        vars.put(&quot;Fileupload&quot;,String.valueOf(minutesBetween));
-    }
-    catch(Exception e)
-    {
-        WDS.log.info(&quot;---------------Looking like file got stuck in processing messages----------------&quot;);
-        
-        end=LocalDateTime.now();
-        Long minutesBetween=ChronoUnit.MILLIS.between(start,end);
-        String Timestamp = Long.toString(minutesBetween);
-        WDS.log.info(&quot;Login: Fileupload = file is not uploaded: &quot;+Timestamp+&quot; miliseconds&quot;);
-    }
-    try{
-        //User is trying to logout from the application
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;//div[@class=&apos;dropdown-toggle&apos;]/p&quot;))).click();
-        logout=wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;//a[@class=&apos;logout&apos;]&quot;)));
-        start=LocalDateTime.now();
-        logout.click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;//div/figure[@class=&apos;logo-mammoth text-hide&apos;]&quot;)));
-        end=LocalDateTime.now();
-        Long minutesBetween=ChronoUnit.MILLIS.between(start,end);
-        vars.put(&quot;logout&quot;,String.valueOf(minutesBetween));
-        WDS.log.info(vars.get(&quot;logout&quot;));
-    }
-    catch(Exception e)
-    {
-        //log.info(&quot;Exception is : &quot; +e);
-        try {
-               InetAddress ipAddr = InetAddress.getLocalHost();
-               ip= String.valueOf(ipAddr.getHostAddress());
-                } catch (UnknownHostException ex) {
-                    ex.printStackTrace();
-                }
-        File src= ((TakesScreenshot)WDS.browser).getScreenshotAs(OutputType.FILE);
-        try {
-         // now copy the  screenshot to desired location using copyFile //method
-            FileUtils.copyFile(src, new File(&quot;Reporting/&quot;+ip+&quot;SanityFileupload_logout&quot;+vars.get(&quot;Itr&quot;)+&quot;i&quot;+vars.get(&quot;usr&quot;)+&quot;u&quot;+&quot;.png&quot;));
-        }
-        catch (IOException e)
-         {
-           WDS.log.info(&quot;something wrong&quot;);
-         }
-     }
-
-}catch(Exception e)
-{
-    //log.info(&quot;Exception is : &quot; +e);
-    try {
-           InetAddress ipAddr = InetAddress.getLocalHost();
-           ip= String.valueOf(ipAddr.getHostAddress());
-            } catch (UnknownHostException ex) {
-                ex.printStackTrace();
-            }
-    File src= ((TakesScreenshot)WDS.browser).getScreenshotAs(OutputType.FILE);
-    try {
-     // now copy the  screenshot to desired location using copyFile //method
-        FileUtils.copyFile(src, new File(&quot;Reporting/&quot;+ip+&quot;SanityFileupload_upload&quot;+vars.get(&quot;Itr&quot;)+&quot;i&quot;+vars.get(&quot;usr&quot;)+&quot;u&quot;+&quot;.png&quot;));
-    }
-    catch (IOException e)
-     {
-       WDS.log.info(&quot;something wrong&quot;);
-     }
- }
- finally{
-
-    EndTime=LocalDateTime.now();
-    f = new FileOutputStream(&quot;TimestampsFolder/Timestamp.txt&quot;,true); 
-    p = new PrintStream(f);
-    WDS.log.info(&quot; EndTime = &quot;+EndTime);
-    WDS.sampleResult.sampleEnd();
-    WDS.log.info(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: Overlay = &quot;+vars.get(&quot;overlay&quot;));
-    p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: Overlay = &quot;+vars.get(&quot;overlay&quot;));
-    WDS.log.info(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: login = &quot;+vars.get(&quot;login&quot;));
-    p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: login = &quot;+vars.get(&quot;login&quot;));
-    WDS.log.info(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: Fileupload = &quot;+vars.get(&quot;Fileupload&quot;));
-    p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: Fileupload = &quot;+vars.get(&quot;Fileupload&quot;));
-    WDS.log.info(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: logout = &quot;+vars.get(&quot;logout&quot;));
-    p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: logout = &quot;+vars.get(&quot;logout&quot;));
-    p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: startTime = &quot;+vars.get(&quot;StartTime&quot;));
-    p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: EndTime = &quot;+EndTime);
-    LocalDateTime StartTime = LocalDateTime.parse(vars.get(&quot;StartTime&quot;));
-    Long minutesBetween=ChronoUnit.MILLIS.between(StartTime,EndTime);
-    p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: TotalTime = &quot;+minutesBetween);
-    WDS.log.info(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: TotalTime = &quot;+minutesBetween);
-    p.close();
-
- }
-
-
+            <stringProp name="WebDriverSampler.script">import org.apache.jmeter.services.FileServer;&#xd;
+import org.openqa.selenium;&#xd;
+import java.awt.Robot;&#xd;
+import org.openqa.selenium.JavascriptExecutor;&#xd;
+import org.openqa.selenium.interactions.Action;&#xd;
+import org.openqa.selenium.interactions.Actions;&#xd;
+import java.awt.Toolkit;&#xd;
+import java.io;&#xd;
+import java.io.File;&#xd;
+import java.awt.datatransfer.StringSelection;&#xd;
+import org.apache.commons.io.FileUtils;&#xd;
+import org.openqa.selenium.OutputType;&#xd;
+import org.openqa.selenium.TakesScreenshot;&#xd;
+import org.openqa.selenium.firefox.FirefoxProfile;&#xd;
+import java.time.temporal.ChronoUnit;&#xd;
+import java.time.format.DateTimeFormatter;  &#xd;
+import java.time.LocalDateTime;   &#xd;
+import org.openqa.selenium.WebElement;&#xd;
+import org.openqa.selenium.By;&#xd;
+import java.io.FileReader;&#xd;
+import java.io.BufferedReader;&#xd;
+import java.io.FileWriter;&#xd;
+import java.util.concurrent.TimeUnit;&#xd;
+import java.util.ArrayList;&#xd;
+import org.testng.asserts.SoftAssert;&#xd;
+import java.util.List;&#xd;
+import java.nio.file.Path;&#xd;
+import java.nio.file.Paths;&#xd;
+import org.openqa.selenium.support.ui.WebDriverWait;&#xd;
+import org.openqa.selenium.support.ui.ExpectedConditions;&#xd;
+WebDriverWait wait= new WebDriverWait(WDS.browser,200);&#xd;
+WDS.sampleResult.sampleStart();&#xd;
+var vars = org.apache.jmeter.threads.JMeterContextService.getContext().getVariables();&#xd;
+try{&#xd;
+    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;//ul[@class=&apos;menu-main&apos;]/child::li&quot;)));&#xd;
+    wait.until(ExpectedConditions.elementToBeClickable(By.xpath(&quot;//ul[@class=&apos;menu-main&apos;]/child::li&quot;))).click();&#xd;
+    start=LocalDateTime.now();&#xd;
+    String currDir  = System.getProperty(&quot;user.dir&quot;);&#xd;
+    File file =new File(currDir);&#xd;
+    Thread.sleep(5000);&#xd;
+    file1= WDS.browser.findElement(By.xpath(&quot;//input[contains(@class,&apos;fileSelectHiddenInput&apos;)]&quot;));&#xd;
+&#xd;
+WDS.browser.executeScript(&quot;document.querySelector(&apos;.fileSelectHiddenInput&apos;).setAttribute(&apos;style&apos;,display=&apos;block&apos;,&apos;opacity:1; width:10px; height:10px; z-index:100&apos;)&quot;,new Object[] {&quot;&quot;});&#xd;
+//filelocation=&quot;C:\\Users\\Deepak\\Documents\\apache-jmeter-3.3\\apache-jmeter-3.3\\bin\\Testfiles\\CSVoffice_main.csv&quot;;&#xd;
+//filelocation=&quot;C:\\Users\\Administrator\\Documents\\apache-jmeter-3.3\\bin\\Testfiles\\CSVoffice_main.csv&quot;;&#xd;
+filelocation=java.lang.System.getProperty(&quot;user.dir&quot;) + &quot;\\&quot; + &quot;Testfiles\\CSVoffice_main.csv&quot;;&#xd;
+WDS.log.info(filelocation);&#xd;
+file1.sendKeys(new String[] {filelocation});&#xd;
+    WebDriverWait wait2= new WebDriverWait(WDS.browser,200);&#xd;
+    oldTimeForProgress=LocalDateTime.now();&#xd;
+    try{&#xd;
+    //After upload checking the uploading status&#xd;
+        wait2.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(&quot;//div[@class=&apos;progress progress-mini&apos;]&quot;)));&#xd;
+        WDS.log.info(&quot;--------------------------------Progress bar gets invisible now-------------------&quot;);&#xd;
+        &#xd;
+        end=LocalDateTime.now();&#xd;
+        Long minutesBetween=ChronoUnit.MILLIS.between(start,end);&#xd;
+        String Timestamp = Long.toString(minutesBetween);&#xd;
+        //Getting the time stamps of uploaded file&#xd;
+        vars.put(&quot;Fileupload&quot;,String.valueOf(minutesBetween));&#xd;
+    }&#xd;
+    catch(Exception e)&#xd;
+    {&#xd;
+        WDS.log.info(&quot;---------------Looking like file got stuck in processing messages----------------&quot;);&#xd;
+        &#xd;
+        end=LocalDateTime.now();&#xd;
+        Long minutesBetween=ChronoUnit.MILLIS.between(start,end);&#xd;
+        String Timestamp = Long.toString(minutesBetween);&#xd;
+        WDS.log.info(&quot;Login: Fileupload = file is not uploaded: &quot;+Timestamp+&quot; miliseconds&quot;);&#xd;
+    }&#xd;
+    try{&#xd;
+        //User is trying to logout from the application&#xd;
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;//div[@class=&apos;dropdown-toggle&apos;]/p&quot;))).click();&#xd;
+        logout=wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;//a[@class=&apos;logout&apos;]&quot;)));&#xd;
+        start=LocalDateTime.now();&#xd;
+        logout.click();&#xd;
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;//div/figure[@class=&apos;logo-mammoth text-hide&apos;]&quot;)));&#xd;
+        end=LocalDateTime.now();&#xd;
+        Long minutesBetween=ChronoUnit.MILLIS.between(start,end);&#xd;
+        vars.put(&quot;logout&quot;,String.valueOf(minutesBetween));&#xd;
+        WDS.log.info(vars.get(&quot;logout&quot;));&#xd;
+    }&#xd;
+    catch(Exception e)&#xd;
+    {&#xd;
+        //log.info(&quot;Exception is : &quot; +e);&#xd;
+        try {&#xd;
+               InetAddress ipAddr = InetAddress.getLocalHost();&#xd;
+               ip= String.valueOf(ipAddr.getHostAddress());&#xd;
+                } catch (UnknownHostException ex) {&#xd;
+                    ex.printStackTrace();&#xd;
+                }&#xd;
+        File src= ((TakesScreenshot)WDS.browser).getScreenshotAs(OutputType.FILE);&#xd;
+        try {&#xd;
+         // now copy the  screenshot to desired location using copyFile //method&#xd;
+            FileUtils.copyFile(src, new File(&quot;Reporting/&quot;+ip+&quot;SanityFileupload_logout&quot;+vars.get(&quot;Itr&quot;)+&quot;i&quot;+vars.get(&quot;usr&quot;)+&quot;u&quot;+&quot;.png&quot;));&#xd;
+        }&#xd;
+        catch (IOException e)&#xd;
+         {&#xd;
+           WDS.log.info(&quot;something wrong&quot;);&#xd;
+         }&#xd;
+     }&#xd;
+&#xd;
+}catch(Exception e)&#xd;
+{&#xd;
+    //log.info(&quot;Exception is : &quot; +e);&#xd;
+    try {&#xd;
+           InetAddress ipAddr = InetAddress.getLocalHost();&#xd;
+           ip= String.valueOf(ipAddr.getHostAddress());&#xd;
+            } catch (UnknownHostException ex) {&#xd;
+                ex.printStackTrace();&#xd;
+            }&#xd;
+    File src= ((TakesScreenshot)WDS.browser).getScreenshotAs(OutputType.FILE);&#xd;
+    try {&#xd;
+     // now copy the  screenshot to desired location using copyFile //method&#xd;
+        FileUtils.copyFile(src, new File(&quot;Reporting/&quot;+ip+&quot;SanityFileupload_upload&quot;+vars.get(&quot;Itr&quot;)+&quot;i&quot;+vars.get(&quot;usr&quot;)+&quot;u&quot;+&quot;.png&quot;));&#xd;
+    }&#xd;
+    catch (IOException e)&#xd;
+     {&#xd;
+       WDS.log.info(&quot;something wrong&quot;);&#xd;
+     }&#xd;
+ }&#xd;
+ finally{&#xd;
+        try {&#xd;
+           InetAddress ipAddr = InetAddress.getLocalHost();&#xd;
+          vars.put(&quot;ip&quot;,String.valueOf(ipAddr.getHostAddress()));&#xd;
+&#xd;
+            } catch (UnknownHostException ex) {&#xd;
+                ex.printStackTrace();&#xd;
+            }&#xd;
+    EndTime=LocalDateTime.now();&#xd;
+    f = new FileOutputStream(&quot;TimestampsFolder/Timestamp_SanityFileupload_&quot;+vars.get(&quot;ip&quot;)+&quot;.txt&quot;,true); &#xd;
+    p = new PrintStream(f);&#xd;
+    WDS.sampleResult.sampleEnd();&#xd;
+    WDS.log.info(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: Overlay = &quot;+vars.get(&quot;overlay&quot;));&#xd;
+    p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: Overlay = &quot;+vars.get(&quot;overlay&quot;));&#xd;
+    WDS.log.info(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: login = &quot;+vars.get(&quot;login&quot;));&#xd;
+    p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: login = &quot;+vars.get(&quot;login&quot;));&#xd;
+    WDS.log.info(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: Fileupload = &quot;+vars.get(&quot;Fileupload&quot;));&#xd;
+    p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: Fileupload = &quot;+vars.get(&quot;Fileupload&quot;));&#xd;
+    WDS.log.info(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: logout = &quot;+vars.get(&quot;logout&quot;));&#xd;
+    p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: logout = &quot;+vars.get(&quot;logout&quot;));&#xd;
+    p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: startTime = &quot;+vars.get(&quot;StartTime&quot;));&#xd;
+    p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: EndTime = &quot;+EndTime);&#xd;
+    LocalDateTime StartTime = LocalDateTime.parse(vars.get(&quot;StartTime&quot;));&#xd;
+    Long minutesBetween=ChronoUnit.MILLIS.between(StartTime,EndTime);&#xd;
+    p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: TotalTime = &quot;+minutesBetween);&#xd;
+    WDS.log.info(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: TotalTime = &quot;+minutesBetween);&#xd;
+    p.close();&#xd;
+&#xd;
+ }&#xd;
+&#xd;
+&#xd;
 </stringProp>
             <stringProp name="WebDriverSampler.parameters"></stringProp>
             <stringProp name="WebDriverSampler.language">beanshell</stringProp>
