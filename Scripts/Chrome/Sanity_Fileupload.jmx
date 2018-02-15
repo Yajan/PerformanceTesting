@@ -378,7 +378,7 @@ try{&#xd;
                 ex.printStackTrace();&#xd;
             }&#xd;
     EndTime=LocalDateTime.now();&#xd;
-    f = new FileOutputStream(&quot;TimestampsFolder/Timestamp_Sanity_Fileupload_&quot;+vars.get(&quot;ip&quot;)+&quot;.txt&quot;,true); &#xd;
+    f = new FileOutputStream(&quot;TimestampsFolder/Timestamp_SanityFileupload_&quot;+vars.get(&quot;ip&quot;)+&quot;.txt&quot;,true); &#xd;
     p = new PrintStream(f);&#xd;
     WDS.sampleResult.sampleEnd();&#xd;
     WDS.log.info(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: Overlay = &quot;+vars.get(&quot;overlay&quot;));&#xd;
