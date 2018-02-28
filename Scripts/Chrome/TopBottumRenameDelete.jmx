@@ -1,0 +1,891 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="3.2" jmeter="3.3 r1808647">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Test Plan" enabled="true">
+      <stringProp name="TestPlan.comments"></stringProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+        <collectionProp name="Arguments.arguments"/>
+      </elementProp>
+      <stringProp name="TestPlan.user_define_classpath"></stringProp>
+    </TestPlan>
+    <hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">${__P(count,1)}</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">${__P(users,1)}</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">${__P(rampup,1)}</stringProp>
+        <longProp name="ThreadGroup.start_time">1514459657000</longProp>
+        <longProp name="ThreadGroup.end_time">2555838857000</longProp>
+        <boolProp name="ThreadGroup.scheduler">true</boolProp>
+        <stringProp name="ThreadGroup.duration">${__P(duration,1200)}</stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <com.tag.jmeter.ext.config.PropertyReader guiclass="TestBeanGUI" testclass="com.tag.jmeter.ext.config.PropertyReader" testname="Property File Reader" enabled="true">
+          <stringProp name="propFilePath">C:\Users\Administrator\Documents\apache-jmeter-3.3\bin\Inputdatas.properties</stringProp>
+        </com.tag.jmeter.ext.config.PropertyReader>
+        <hashTree/>
+        <com.googlecode.jmeter.plugins.webdriver.config.ChromeDriverConfig guiclass="com.googlecode.jmeter.plugins.webdriver.config.gui.ChromeDriverConfigGui" testclass="com.googlecode.jmeter.plugins.webdriver.config.ChromeDriverConfig" testname="jp@gc - Chrome Driver Config" enabled="true">
+          <stringProp name="WebDriverConfig.proxy_type">SYSTEM</stringProp>
+          <stringProp name="WebDriverConfig.proxy_pac_url"></stringProp>
+          <stringProp name="WebDriverConfig.http_host"></stringProp>
+          <intProp name="WebDriverConfig.http_port">8080</intProp>
+          <boolProp name="WebDriverConfig.use_http_for_all_protocols">true</boolProp>
+          <stringProp name="WebDriverConfig.https_host"></stringProp>
+          <intProp name="WebDriverConfig.https_port">8080</intProp>
+          <stringProp name="WebDriverConfig.ftp_host"></stringProp>
+          <intProp name="WebDriverConfig.ftp_port">8080</intProp>
+          <stringProp name="WebDriverConfig.socks_host"></stringProp>
+          <intProp name="WebDriverConfig.socks_port">8080</intProp>
+          <stringProp name="WebDriverConfig.no_proxy">localhost</stringProp>
+          <boolProp name="WebDriverConfig.maximize_browser">true</boolProp>
+          <boolProp name="WebDriverConfig.reset_per_iteration">false</boolProp>
+          <boolProp name="WebDriverConfig.dev_mode">false</boolProp>
+          <stringProp name="ChromeDriverConfig.chromedriver_path">chromedriver.exe</stringProp>
+          <boolProp name="ChromeDriverConfig.android_enabled">false</boolProp>
+        </com.googlecode.jmeter.plugins.webdriver.config.ChromeDriverConfig>
+        <hashTree/>
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Transaction Controller" enabled="true">
+          <boolProp name="TransactionController.includeTimers">false</boolProp>
+          <boolProp name="TransactionController.parent">false</boolProp>
+        </TransactionController>
+        <hashTree>
+          <com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler guiclass="com.googlecode.jmeter.plugins.webdriver.sampler.gui.WebDriverSamplerGui" testclass="com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler" testname="jp@gc - WebDriver Sampler" enabled="true">
+            <stringProp name="WebDriverSampler.script">import org.apache.jmeter.services.FileServer;&#xd;
+import org.openqa.selenium;&#xd;
+import java.time.temporal.ChronoUnit;&#xd;
+import java.time.format.DateTimeFormatter;  &#xd;
+import java.time.LocalDateTime;&#xd;
+import org.openqa.selenium.Dimension;&#xd;
+import java.io.IOException;&#xd;
+import java.io.File;&#xd;
+import java.io.FileInputStream;&#xd;
+import java.io.FileOutputStream;&#xd;
+import java.nio.channels.FileChannel;&#xd;
+import org.openqa.selenium.WebElement;&#xd;
+import org.openqa.selenium.By;&#xd;
+import java.io.IOException;&#xd;
+import org.apache.commons.io.FileUtils;&#xd;
+import org.openqa.selenium.OutputType;&#xd;
+import org.openqa.selenium.TakesScreenshot;&#xd;
+import org.openqa.selenium.WebDriver;&#xd;
+import java.net.InetAddress;&#xd;
+import java.net.UnknownHostException;&#xd;
+import java.util.concurrent.TimeUnit;&#xd;
+import org.openqa.selenium.support.ui.WebDriverWait;&#xd;
+import org.openqa.selenium.support.ui.ExpectedConditions;&#xd;
+&#xd;
+var vars = org.apache.jmeter.threads.JMeterContextService.getContext().getVariables();&#xd;
+WebDriverWait wait= new WebDriverWait(WDS.browser,200);&#xd;
+vars.put(&quot;Itr&quot;,String.valueOf(&quot;${__BeanShell(vars.getIteration(),)}&quot;));&#xd;
+vars.put(&quot;usr&quot;,String.valueOf(&quot;${__threadNum}&quot;));&#xd;
+vars.put(&quot;overlay&quot;,&quot;0&quot;);&#xd;
+vars.put(&quot;login&quot;,&quot;0&quot;);&#xd;
+vars.put(&quot;Fileupload&quot;,&quot;0&quot;);&#xd;
+vars.put(&quot;NewWindow&quot;,&quot;0&quot;);&#xd;
+vars.put(&quot;Addtopbottom&quot;,&quot;0&quot;);&#xd;
+vars.put(&quot;Noteadded&quot;,&quot;0&quot;);&#xd;
+vars.put(&quot;RenameTitle&quot;,&quot;0&quot;);&#xd;
+vars.put(&quot;Renamerule&quot;,&quot;0&quot;);&#xd;
+vars.put(&quot;RuleDeletion&quot;,&quot;0&quot;);&#xd;
+vars.put(&quot;logout&quot;,&quot;0&quot;);&#xd;
+vars.put(&quot;ip&quot;,&quot;0&quot;);&#xd;
+WDS.sampleResult.sampleStart();&#xd;
+//Script Starts from here&#xd;
+vars.put(&quot;StartTime&quot;,String.valueOf(LocalDateTime.now()));&#xd;
+        try {&#xd;
+           InetAddress ipAddr = InetAddress.getLocalHost();&#xd;
+          vars.put(&quot;ip&quot;,String.valueOf(ipAddr.getHostAddress()));&#xd;
+&#xd;
+            } catch (UnknownHostException ex) {&#xd;
+                ex.printStackTrace();&#xd;
+            }&#xd;
+ vars.put(&quot;IP&quot;,vars.get(&quot;ip&quot;).replace(&quot;.&quot;,&quot;_&quot;));&#xd;
+FileUtils.copyFile(new File(&quot;Testfiles/CSVoffice_main.csv&quot;),new File(&quot;Testfiles/Csvoffice_Main&quot;+vars.get(&quot;usr&quot;)+&quot;U&quot;+vars.get(&quot;Itr&quot;)+&quot;I&quot;+vars.get(&quot;IP&quot;)+&quot;.csv&quot;));&#xd;
+//Launcing application&#xd;
+path=&quot;//h5//span[contains(.,&apos;Csvoffice_Main&quot;+vars.get(&quot;usr&quot;)+&quot;U&quot;+vars.get(&quot;Itr&quot;)+&quot;I&quot;+vars.get(&quot;IP&quot;)+&quot;&apos;)]&quot;;&#xd;
+vars.put(&quot;path&quot;,path);&#xd;
+WDS.log.info(&quot;path is &quot;+vars.get(&quot;path&quot;));&#xd;
+&#xd;
+d = new Dimension(1750, 1000);&#xd;
+WDS.browser.manage().window().setSize(d);&#xd;
+WDS.browser.get(&quot;${__P(Url,http://app.mammoth.io)}&quot;);&#xd;
+&#xd;
+//application login process&#xd;
+try{&#xd;
+wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(&quot;${__P(uid)}&quot;))).sendKeys(new String[] {&quot;${__P(username)}&quot;});&#xd;
+wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(&quot;${__P(passid)}&quot;))).sendKeys(new String[] {&quot;${__P(password)}&quot;});&#xd;
+login=wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;${__P(signbuttonid)}&quot;)));&#xd;
+startlogin=LocalDateTime.now();&#xd;
+login.click();&#xd;
+&#xd;
+//Overlay starts now&#xd;
+TEN_SECONDS=60*1000;&#xd;
+WDS.browser.manage().timeouts().implicitlyWait(6, TimeUnit.SECONDS); &#xd;
+oldTime=LocalDateTime.now();&#xd;
+start=LocalDateTime.now();&#xd;
+try{&#xd;
+	while(WDS.browser.findElement(By.xpath(&quot;//spinner[@class=&apos;html5spinner ng-scope&apos;]&quot;)).isDisplayed()){&#xd;
+    	WDS.log.info(&quot;overlay is there&quot;);	&#xd;
+    	Long minutesBetween=ChronoUnit.MILLIS.between(oldTime,LocalDateTime.now());&#xd;
+    	if(minutesBetween&gt;TEN_SECONDS){&#xd;
+        	WDS.browser.navigate().refresh();&#xd;
+        	oldTimeAfterRefresh=LocalDateTime.now();&#xd;
+        //again find overlay after refreshing&#xd;
+        	try{&#xd;
+        		while(WDS.browser.findElement(By.xpath(&quot;//spinner[@class=&apos;html5spinner ng-scope&apos;]&quot;)).isDisplayed()){&#xd;
+        		Long minutesBetween=ChronoUnit.MILLIS.between(oldTimeAfterRefresh,LocalDateTime.now());&#xd;
+        		if(minutesBetween&gt;TEN_SECONDS){&#xd;
+        		break outerloop;&#xd;
+        	}&#xd;
+                else {&#xd;
+                    WDS.log.info(&quot;Overlay is there&quot;);&#xd;
+                     }&#xd;
+                  }&#xd;
+               }&#xd;
+            catch(Exception e){&#xd;
+                //when there is no overlay in test&#xd;
+            	WDS.log.info(&quot;Exception :Overlay is not present After refreshing&quot;);	&#xd;
+            	end=LocalDateTime.now();&#xd;
+            	Long minutesBetween=ChronoUnit.MILLIS.between(start,end);&#xd;
+            	vars.put(&quot;overlay&quot;,String.valueOf(minutesBetween));&#xd;
+            	Long minutesBetween=ChronoUnit.MILLIS.between(startlogin,end);&#xd;
+            	vars.put(&quot;login&quot;,String.valueOf(minutesBetween));&#xd;
+            WDS.log.info(vars.get(&quot;overlay&quot;));&#xd;
+        	WDS.log.info(vars.get(&quot;login&quot;));&#xd;
+        //Overlay is not present on screen but test should mark as fail,as it required browser refresh to work.&#xd;
+                            }&#xd;
+                   }&#xd;
+               }&#xd;
+    //Overlay got invisible now&#xd;
+    WDS.log.info(&quot;Overlay is invisible now&quot;);&#xd;
+	end=LocalDateTime.now();&#xd;
+	Long minutesBetween=ChronoUnit.MILLIS.between(start,end);&#xd;
+	vars.put(&quot;overlay&quot;,String.valueOf(minutesBetween));&#xd;
+	Long minutesBetween=ChronoUnit.MILLIS.between(startlogin,end);&#xd;
+	vars.put(&quot;login&quot;,String.valueOf(minutesBetween));&#xd;
+	WDS.log.info(vars.get(&quot;overlay&quot;));&#xd;
+    WDS.log.info(vars.get(&quot;login&quot;));&#xd;
+}&#xd;
+catch(Exception e){&#xd;
+    //There is no overlay found&#xd;
+	WDS.log.info(&quot;Exception :Overlay element id is not present.&quot;);&#xd;
+	end=LocalDateTime.now();&#xd;
+	Long minutesBetween=ChronoUnit.MILLIS.between(start,end);&#xd;
+	vars.put(&quot;overlay&quot;,String.valueOf(minutesBetween));&#xd;
+	Long minutesBetween=ChronoUnit.MILLIS.between(startlogin,end);&#xd;
+	vars.put(&quot;login&quot;,String.valueOf(minutesBetween));&#xd;
+    WDS.log.info(vars.get(&quot;overlay&quot;));&#xd;
+    WDS.log.info(vars.get(&quot;login&quot;));&#xd;
+	break outerloop;&#xd;
+	}&#xd;
+finally{&#xd;
+    WDS.log.info(&quot;test&quot;+vars.get(&quot;overlay&quot;));&#xd;
+    WDS.log.info(&quot;test&quot;+vars.get(&quot;login&quot;));&#xd;
+&#xd;
+WDS.sampleResult.sampleEnd();&#xd;
+}&#xd;
+&#xd;
+}catch(Exception e)&#xd;
+{&#xd;
+    //log.info(&quot;Exception is : &quot; +e);&#xd;
+    try {&#xd;
+           InetAddress ipAddr = InetAddress.getLocalHost();&#xd;
+           ip= String.valueOf(ipAddr.getHostAddress());&#xd;
+            } catch (UnknownHostException ex) {&#xd;
+                ex.printStackTrace();&#xd;
+            }&#xd;
+    File src= ((TakesScreenshot)WDS.browser).getScreenshotAs(OutputType.FILE);&#xd;
+    try {&#xd;
+     // now copy the  screenshot to desired location using copyFile //method&#xd;
+        FileUtils.copyFile(src, new File(&quot;Reporting/&quot;+ip+&quot;summarytest_login&quot;+vars.get(&quot;Itr&quot;)+&quot;i&quot;+vars.get(&quot;usr&quot;)+&quot;u&quot;+&quot;.png&quot;));&#xd;
+    }&#xd;
+    catch (IOException e)&#xd;
+     {&#xd;
+       WDS.log.info(&quot;something wrong&quot;);&#xd;
+     }&#xd;
+ }&#xd;
+&#xd;
+</stringProp>
+            <stringProp name="WebDriverSampler.parameters"></stringProp>
+            <stringProp name="WebDriverSampler.language">beanshell</stringProp>
+          </com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler>
+          <hashTree/>
+          <com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler guiclass="com.googlecode.jmeter.plugins.webdriver.sampler.gui.WebDriverSamplerGui" testclass="com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler" testname="jp@gc - WebDriver Sampler" enabled="true">
+            <stringProp name="WebDriverSampler.script">import org.apache.jmeter.services.FileServer;&#xd;
+import org.openqa.selenium;&#xd;
+import java.time.temporal.ChronoUnit;&#xd;
+import java.time.format.DateTimeFormatter;  &#xd;
+import java.time.LocalDateTime;   &#xd;
+import org.openqa.selenium.WebElement;&#xd;
+import org.openqa.selenium.By;&#xd;
+import java.io.FileReader;&#xd;
+import java.io.BufferedReader;&#xd;
+import java.io.FileWriter;&#xd;
+import java.util.concurrent.TimeUnit;&#xd;
+import java.util.ArrayList;&#xd;
+import org.testng.asserts.SoftAssert;&#xd;
+import java.util.List;&#xd;
+import org.openqa.selenium.support.ui.WebDriverWait;&#xd;
+import org.openqa.selenium.support.ui.ExpectedConditions;&#xd;
+&#xd;
+WebDriverWait wait= new WebDriverWait(WDS.browser,200);&#xd;
+WDS.sampleResult.sampleStart();&#xd;
+try{&#xd;
+try{&#xd;
+   //Checking for the invisibility of blanck page if there are no data in the application&#xd;
+wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(&quot;//div[@class=&apos;no-data&apos;]&quot;)));&#xd;
+}catch(Exception e){&#xd;
+    //If There is no data in the application uploading a new file.&#xd;
+if(WDS.browser.findElement(By.xpath(&quot;//div[@class=&apos;no-data&apos;]&quot;)).isDisplayed()){&#xd;
+wait.until(ExpectedConditions.elementToBeClickable(By.xpath(&quot;${__P(addNewButtonId)}&quot;))).click();&#xd;
+start=LocalDateTime.now();&#xd;
+Thread.sleep(5000);&#xd;
+file1= WDS.browser.findElement(By.xpath(&quot;${__P(fileUploadButtonId)}&quot;));&#xd;
+&#xd;
+WDS.browser.executeScript(&quot;document.querySelector(&apos;.fileSelectHiddenInput&apos;).setAttribute(&apos;style&apos;,display=&apos;block&apos;,&apos;opacity:1; width:10px; height:10px; z-index:100&apos;)&quot;,new Object[] {&quot;&quot;});&#xd;
+filelocation=java.lang.System.getProperty(&quot;user.dir&quot;) + &quot;/&quot; + &quot;Testfiles/CSVoffice_main.csv&quot;;&#xd;
+WDS.log.info(filelocation);&#xd;
+file1.sendKeys(new String[] {filelocation});&#xd;
+}&#xd;
+}&#xd;
+}catch(Exception e)  &#xd;
+{  &#xd;
+    //Exception if there is problem in file upload.&#xd;
+      try {&#xd;
+           InetAddress ipAddr = InetAddress.getLocalHost();&#xd;
+           ip= String.valueOf(ipAddr.getHostAddress());&#xd;
+            } catch (UnknownHostException ex) {&#xd;
+                ex.printStackTrace();&#xd;
+            }&#xd;
+    File src= ((TakesScreenshot)WDS.browser).getScreenshotAs(OutputType.FILE);&#xd;
+    try {&#xd;
+     // now copy the  screenshot to desired location using copyFile //method&#xd;
+        FileUtils.copyFile(src, new File(&quot;Reporting/&quot;+ip+&quot;TopbottomRenameDelete_loginupload&quot;+vars.get(&quot;Itr&quot;)+&quot;i&quot;+vars.get(&quot;usr&quot;)+&quot;u&quot;+&quot;.png&quot;));&#xd;
+    }&#xd;
+    catch (IOException e)&#xd;
+     {&#xd;
+       WDS.log.info(&quot;something wrong&quot;);&#xd;
+     }&#xd;
+}&#xd;
+&#xd;
+WDS.sampleResult.sampleEnd();</stringProp>
+            <stringProp name="WebDriverSampler.parameters"></stringProp>
+            <stringProp name="WebDriverSampler.language">beanshell</stringProp>
+          </com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler>
+          <hashTree/>
+          <com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler guiclass="com.googlecode.jmeter.plugins.webdriver.sampler.gui.WebDriverSamplerGui" testclass="com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler" testname="jp@gc - WebDriver Sampler" enabled="true">
+            <stringProp name="WebDriverSampler.script">import org.apache.jmeter.services.FileServer;&#xd;
+import org.openqa.selenium;&#xd;
+import org.openqa.selenium.JavascriptExecutor;&#xd;
+import org.openqa.selenium.interactions.Action;&#xd;
+import org.openqa.selenium.interactions.Actions;&#xd;
+import java.io;&#xd;
+import java.io.File;&#xd;
+import java.awt.datatransfer.StringSelection;&#xd;
+import java.time.temporal.ChronoUnit;&#xd;
+import java.time.format.DateTimeFormatter; &#xd;
+import java.time.LocalDateTime;   &#xd;
+import org.openqa.selenium.WebElement;&#xd;
+import org.openqa.selenium.By;&#xd;
+import org.apache.commons.io.FileUtils;&#xd;
+import org.openqa.selenium.OutputType;&#xd;
+import org.openqa.selenium.TakesScreenshot;&#xd;
+import java.util.concurrent.TimeUnit;&#xd;
+import java.util.ArrayList;&#xd;
+import java.util.List;&#xd;
+import java.nio.file.Path;&#xd;
+import java.nio.file.Paths;&#xd;
+import org.openqa.selenium.support.ui.WebDriverWait;&#xd;
+import org.openqa.selenium.support.ui.ExpectedConditions;&#xd;
+WebDriverWait wait= new WebDriverWait(WDS.browser,200);&#xd;
+WDS.sampleResult.sampleStart();&#xd;
+&#xd;
+String winHandleBefore=null;&#xd;
+var vars = org.apache.jmeter.threads.JMeterContextService.getContext().getVariables();&#xd;
+try{&#xd;
+//uploading a .csv file to application here after clicking upload button&#xd;
+    Thread.sleep(5000);&#xd;
+    WDS.browser.findElement(By.xpath(&quot;${__P(addNewButtonId)}&quot;)).click();&#xd;
+    start=LocalDateTime.now();&#xd;
+    String currDir  = System.getProperty(&quot;user.dir&quot;);&#xd;
+    File file =new File(currDir);&#xd;
+    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;//p[@class=&apos;btn btn-outline&apos;]&quot;)));&#xd;
+    Thread.sleep(5000);&#xd;
+    file1= WDS.browser.findElement(By.xpath(&quot;${__P(fileUploadButtonId)}&quot;));&#xd;
+    &#xd;
+    WDS.browser.executeScript(&quot;document.querySelector(&apos;.fileSelectHiddenInput&apos;).setAttribute(&apos;style&apos;,display=&apos;block&apos;,&apos;opacity:1; width:10px; height:10px; z-index:100&apos;)&quot;,new Object[] {&quot;&quot;});&#xd;
+    filelocation=java.lang.System.getProperty(&quot;user.dir&quot;) + &quot;/&quot; + &quot;Testfiles/Csvoffice_Main&quot;+vars.get(&quot;usr&quot;)+&quot;U&quot;+vars.get(&quot;Itr&quot;)+&quot;I&quot;+vars.get(&quot;IP&quot;)+&quot;.csv&quot;;&#xd;
+    WDS.log.info(filelocation);&#xd;
+    start=LocalDateTime.now();&#xd;
+    oldTimeForProgress=LocalDateTime.now();&#xd;
+    //sending file to upload to application&#xd;
+    file1.sendKeys(new String[] {filelocation});&#xd;
+    //Sending file location to upload&#xd;
+    start=LocalDateTime.now();&#xd;
+    WebDriverWait wait2= new WebDriverWait(WDS.browser,300);&#xd;
+    oldTimeForProgress=LocalDateTime.now();&#xd;
+    start=LocalDateTime.now();&#xd;
+    try{&#xd;
+        //checking the progress of uploaded file&#xd;
+        wait2.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(&quot;//div[@class=&apos;progress progress-mini&apos;]&quot;)));&#xd;
+        WDS.log.info(&quot;--------------------------------Progress bar gets invisible now-------------------&quot;);&#xd;
+        &#xd;
+        end=LocalDateTime.now();&#xd;
+        Long minutesBetween=ChronoUnit.MILLIS.between(start,end);&#xd;
+        String Timestamp = Long.toString(minutesBetween);&#xd;
+        vars.put(&quot;Fileupload&quot;,String.valueOf(minutesBetween));&#xd;
+    &#xd;
+    }&#xd;
+    catch(Exception e)&#xd;
+    {&#xd;
+         WDS.log.info(&quot;Uploading  a file named : &quot;+&quot;CSVoffice_main.csv&quot;);&#xd;
+    &#xd;
+        end=LocalDateTime.now();&#xd;
+    	Long minutesBetween=ChronoUnit.MILLIS.between(start,end);&#xd;
+    	vars.put(&quot;Fileupload&quot;,String.valueOf(minutesBetween));&#xd;
+    }&#xd;
+    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(vars.get(&quot;path&quot;))));	&#xd;
+    winHandleBefore = WDS.browser.getWindowHandle();&#xd;
+    Actions action = new Actions(WDS.browser);&#xd;
+    action.moveToElement(wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(vars.get(&quot;path&quot;))))).click().perform();&#xd;
+    WDS.browser.manage().timeouts().implicitlyWait(6, TimeUnit.SECONDS); &#xd;
+	try{&#xd;
+        //checking for the overlay element&#xd;
+        while(WDS.browser.findElement(By.xpath(&quot;//spinner[@class=&apos;html5spinner ng-scope&apos;]&quot;)).isDisplayed()){&#xd;
+        	wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(&quot;//spinner[@class=&apos;html5spinner ng-scope&apos;]&quot;)));&#xd;
+        	break;&#xd;
+        }&#xd;
+       &#xd;
+        }catch(Exception e)&#xd;
+        {&#xd;
+        WDS.log.info(&quot;Overlay is done&quot;);&#xd;
+        }&#xd;
+&#xd;
+  	action.moveToElement(wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(vars.get(&quot;path&quot;))))).doubleClick().perform();&#xd;
+    //wait.until(ExpectedConditions.elementToBeClickable(By.xpath(&quot;//div/div[@class=&apos;btn btn-open ng-scope&apos;]&quot;))).click();&#xd;
+        for(String winHandle : WDS.browser.getWindowHandles()){&#xd;
+    	if(!winHandle.equals(winHandleBefore)){&#xd;
+    				WDS.browser.switchTo().window(winHandle);&#xd;
+    	}&#xd;
+    }&#xd;
+    WDS.log.info(&quot;\t-------------------New Window is opening-------------------&quot;+&quot;\n&quot;);&#xd;
+    &#xd;
+    TEN_SECONDS=60*1000;&#xd;
+    WDS.browser.manage().timeouts().implicitlyWait(6, TimeUnit.SECONDS); &#xd;
+    oldTime=LocalDateTime.now();&#xd;
+    try{&#xd;
+        //checking for the overlay element&#xd;
+         while(WDS.browser.findElement(By.xpath(&quot;//spinner[@class=&apos;html5spinner ng-scope&apos;]&quot;)).isDisplayed()){&#xd;
+    &#xd;
+        WDS.log.info(&quot;overlay is there&quot;);	&#xd;
+        Long minutesBetween=ChronoUnit.MILLIS.between(oldTime,LocalDateTime.now());&#xd;
+        if(minutesBetween&gt;TEN_SECONDS){&#xd;
+        WDS.browser.navigate().refresh();&#xd;
+        oldTimeAfterRefresh=LocalDateTime.now();&#xd;
+    //again find overlay after refreshing&#xd;
+    try{&#xd;
+        //checking for the overlay element&#xd;
+        while(WDS.browser.findElement(By.xpath(&quot;//spinner[@class=&apos;html5spinner ng-scope&apos;]&quot;)).isDisplayed()){&#xd;
+        Long minutesBetween=ChronoUnit.MILLIS.between(oldTimeAfterRefresh,LocalDateTime.now());&#xd;
+        if(minutesBetween&gt;TEN_SECONDS){&#xd;
+              break outerloop;&#xd;
+             }&#xd;
+        else {&#xd;
+          WDS.log.info(&quot;Overlay is there&quot;);&#xd;
+            }&#xd;
+          }&#xd;
+    }&#xd;
+    catch(Exception e){&#xd;
+    	WDS.log.info(&quot;Exception :Overlay is not present After refreshing&quot;);	&#xd;
+    	end=LocalDateTime.now();&#xd;
+    	Long minutesBetween=ChronoUnit.MILLIS.between(start,end);&#xd;
+    	vars.put(&quot;NewWindow&quot;,String.valueOf(minutesBetween));&#xd;
+    //Overlay is not present on screen but test should mark as fail,as it required browser refresh to work.&#xd;
+    }&#xd;
+    }&#xd;
+    }&#xd;
+    WDS.log.info(&quot;Overlay is invisible now&quot;);&#xd;
+    end=LocalDateTime.now();&#xd;
+    Long minutesBetween=ChronoUnit.MILLIS.between(start,end);&#xd;
+    vars.put(&quot;NewWindow&quot;,String.valueOf(minutesBetween));&#xd;
+    }&#xd;
+    catch(Exception e){&#xd;
+    	WDS.log.info(&quot;Exception :Overlay element id is not present.&quot;);&#xd;
+    	end=LocalDateTime.now();&#xd;
+    	Long minutesBetween=ChronoUnit.MILLIS.between(start,end);&#xd;
+    	vars.put(&quot;NewWindow&quot;,String.valueOf(minutesBetween));    //taking time stamp&#xd;
+    	break outerloop;&#xd;
+    	}&#xd;
+&#xd;
+&#xd;
+}&#xd;
+catch(Exception e)&#xd;
+{&#xd;
+       // Getting IP and and taking screenshot&#xd;
+    try {&#xd;
+           InetAddress ipAddr = InetAddress.getLocalHost();&#xd;
+           ip= String.valueOf(ipAddr.getHostAddress());&#xd;
+            } catch (UnknownHostException ex) {&#xd;
+                ex.printStackTrace();&#xd;
+            }&#xd;
+    File src= ((TakesScreenshot)WDS.browser).getScreenshotAs(OutputType.FILE);&#xd;
+    try {&#xd;
+     // now copy the  screenshot to desired location using copyFile //method&#xd;
+        FileUtils.copyFile(src, new File(&quot;Reporting/&quot;+ip+&quot;summarytest_upload&quot;+vars.get(&quot;Itr&quot;)+&quot;i&quot;+vars.get(&quot;usr&quot;)+&quot;u&quot;+&quot;.png&quot;));&#xd;
+    }&#xd;
+    catch (IOException e)&#xd;
+     {&#xd;
+       WDS.log.info(&quot;something wrong&quot;);&#xd;
+     }&#xd;
+}&#xd;
+&#xd;
+WDS.sampleResult.sampleEnd();</stringProp>
+            <stringProp name="WebDriverSampler.parameters"></stringProp>
+            <stringProp name="WebDriverSampler.language">beanshell</stringProp>
+          </com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler>
+          <hashTree/>
+          <com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler guiclass="com.googlecode.jmeter.plugins.webdriver.sampler.gui.WebDriverSamplerGui" testclass="com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler" testname="jp@gc - WebDriver Sampler" enabled="true">
+            <stringProp name="WebDriverSampler.script">import org.apache.jmeter.services.FileServer;
+import org.openqa.selenium;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.interactions.Action;
+import org.openqa.selenium.interactions.Actions;
+import java.awt.datatransfer.StringSelection;
+import org.openqa.selenium.support.ui.FluentWait;
+import java.time.temporal.ChronoUnit;
+import java.time.format.DateTimeFormatter;  
+import java.time.LocalDateTime;   
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
+import java.io.FileWriter;
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import java.util.concurrent.TimeUnit;
+import java.util.ArrayList;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Wait;
+WebDriverWait wait= new WebDriverWait(WDS.browser,300);
+
+
+var vars = org.apache.jmeter.threads.JMeterContextService.getContext().getVariables();
+try{
+wait.until(ExpectedConditions.titleContains(&quot;View&quot;));
+WDS.log.info(&quot;waited for view&quot;);
+}
+catch(Exception e)
+{
+	try {
+           InetAddress ipAddr = InetAddress.getLocalHost();
+           ip= String.valueOf(ipAddr.getHostAddress());
+            } catch (UnknownHostException ex) {
+                ex.printStackTrace();
+            }
+    File src= ((TakesScreenshot)WDS.browser).getScreenshotAs(OutputType.FILE);
+    try {
+     // now copy the  screenshot to desired location using copyFile //method
+        FileUtils.copyFile(src, new File(&quot;Reporting/&quot;+ip+&quot;NewViewTest_upload&quot;+vars.get(&quot;Itr&quot;)+&quot;i&quot;+vars.get(&quot;usr&quot;)+&quot;u&quot;+&quot;.png&quot;));
+    }
+    catch (IOException e)
+     {
+       WDS.log.info(&quot;something wrong&quot;);
+     }
+}
+
+try{
+
+WDS.sampleResult.sampleStart();
+wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;${__P(addtaskButton)}&quot;)));
+wait.until(ExpectedConditions.elementToBeClickable(By.xpath(&quot;${__P(addtaskButton)}&quot;))).click();
+wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;${__P(topBottomRule)}&quot;)));
+wait.until(ExpectedConditions.elementToBeClickable(By.xpath(&quot;${__P(topBottomRule)}&quot;))).click();
+wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;${__P(topBottomTitle)}&quot;)));
+
+wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;${__P(numberOfRowsInput)}&quot;))).sendKeys(new String[] {&quot;100&quot;});
+wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;${__P(applyButtonInRemove)}&quot;))).click();
+oldTime=LocalDateTime.now();
+TEN_SECONDS=60*1000;
+start=LocalDateTime.now();
+try{
+while(WDS.browser.findElement(By.xpath(&quot;//spinner[@class=&apos;html5spinner ng-scope&apos;]&quot;)).isDisplayed()){
+
+WDS.log.info(&quot;overlay is there&quot;);	
+Long minutesBetween=ChronoUnit.MILLIS.between(oldTime,LocalDateTime.now());
+if(minutesBetween&gt;TEN_SECONDS){
+WDS.browser.navigate().refresh();
+oldTimeAfterRefresh=LocalDateTime.now();
+//again find overlay after refreshing
+try{
+while(WDS.browser.findElement(By.xpath(&quot;//spinner[@class=&apos;html5spinner ng-scope&apos;]&quot;)).isDisplayed()){
+Long minutesBetween=ChronoUnit.MILLIS.between(oldTimeAfterRefresh,LocalDateTime.now());
+if(minutesBetween&gt;TEN_SECONDS){
+break outerloop;
+}
+else {
+WDS.log.info(&quot;Overlay is there&quot;);
+}
+}
+}
+catch(Exception e){
+	WDS.log.info(&quot;Exception :Overlay is not present After refreshing&quot;);	
+	end=LocalDateTime.now();
+	Long minutesBetween=ChronoUnit.MILLIS.between(start,end);
+	vars.put(&quot;Addtopbottom&quot;,String.valueOf(minutesBetween));
+
+}
+}
+}
+WDS.log.info(&quot;Overlay is invisible now&quot;);
+end=LocalDateTime.now();
+	Long minutesBetween=ChronoUnit.MILLIS.between(start,end);
+	vars.put(&quot;Addtopbottom&quot;,String.valueOf(minutesBetween));
+}
+catch(Exception e){
+	WDS.log.info(&quot;Exception :Overlay element id is not present.&quot;);
+	end=LocalDateTime.now();
+	Long minutesBetween=ChronoUnit.MILLIS.between(start,end);
+	vars.put(&quot;Addtopbottom&quot;,String.valueOf(minutesBetween));
+	break outerloop;
+	}
+}
+catch(Exception e)
+{
+	try {
+           InetAddress ipAddr = InetAddress.getLocalHost();
+           ip= String.valueOf(ipAddr.getHostAddress());
+            } catch (UnknownHostException ex) {
+                ex.printStackTrace();
+            }
+    File src= ((TakesScreenshot)WDS.browser).getScreenshotAs(OutputType.FILE);
+    try {
+     // now copy the  screenshot to desired location using copyFile //method
+        FileUtils.copyFile(src, new File(&quot;Reporting/&quot;+ip+&quot;NewViewTest_upload&quot;+vars.get(&quot;Itr&quot;)+&quot;i&quot;+vars.get(&quot;usr&quot;)+&quot;u&quot;+&quot;.png&quot;));
+    }
+    catch (IOException e)
+     {
+       WDS.log.info(&quot;something wrong&quot;);
+     }
+}
+WDS.log.info(&quot;Completed 4&quot;);
+WDS.sampleResult.sampleEnd();
+</stringProp>
+            <stringProp name="WebDriverSampler.parameters"></stringProp>
+            <stringProp name="WebDriverSampler.language">beanshell</stringProp>
+          </com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler>
+          <hashTree/>
+          <com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler guiclass="com.googlecode.jmeter.plugins.webdriver.sampler.gui.WebDriverSamplerGui" testclass="com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler" testname="jp@gc - WebDriver Sampler" enabled="true">
+            <stringProp name="WebDriverSampler.script">import org.apache.jmeter.services.FileServer;
+import org.openqa.selenium;
+import org.openqa.selenium.support.ui.Select;
+import java.util.List;
+import org.openqa.selenium.interactions.Action;
+import org.openqa.selenium.interactions.Actions;
+import java.awt.datatransfer.StringSelection;
+import org.openqa.selenium.support.ui.FluentWait;
+import java.time.temporal.ChronoUnit;
+import java.time.format.DateTimeFormatter;  
+import java.time.LocalDateTime;
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
+import java.io.FileWriter;
+import java.util.concurrent.TimeUnit;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Wait;
+WebDriverWait wait= new WebDriverWait(WDS.browser,400);
+WDS.sampleResult.sampleStart();
+
+
+var vars = org.apache.jmeter.threads.JMeterContextService.getContext().getVariables();
+Actions action = new Actions(WDS.browser);
+try{
+    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;${__P(taskPanel)}&quot;)));
+    wait.until(ExpectedConditions.elementToBeClickable(By.xpath(&quot;${__P(taskPanel)}&quot;))).click();
+    WDS.log.info(&quot;------- Add Note test Started------------&quot;);
+}
+catch(Exception e)
+{
+	try {
+           InetAddress ipAddr = InetAddress.getLocalHost();
+           ip= String.valueOf(ipAddr.getHostAddress());
+            } catch (UnknownHostException ex) {
+                ex.printStackTrace();
+            }
+    File src= ((TakesScreenshot)WDS.browser).getScreenshotAs(OutputType.FILE);
+    try {
+     // now copy the  screenshot to desired location using copyFile //method
+        FileUtils.copyFile(src, new File(&quot;Reporting/&quot;+ip+&quot;NewViewTest_upload&quot;+vars.get(&quot;Itr&quot;)+&quot;i&quot;+vars.get(&quot;usr&quot;)+&quot;u&quot;+&quot;.png&quot;));
+    }
+    catch (IOException e)
+     {
+       WDS.log.info(&quot;something wrong&quot;);
+     }
+    }
+try{
+    Actions action = new Actions(WDS.browser);
+    Thread.sleep(5000);
+    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;${__P(topBottomDropdownPipeline)}&quot;)));
+    action.moveToElement(wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;${__P(topBottomDropdownPipeline)}&quot;)))).build().perform();
+    action.moveToElement(wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;${__P(topBottomDropdownPipeline)}&quot;)))).click().build().perform();
+    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;//a/span[@class=&apos;menu-icon current-menu&apos;]&quot;)));
+    wait.until(ExpectedConditions.elementToBeClickable(By.xpath(&quot;//a/span[@class=&apos;menu-icon current-menu&apos;]&quot;))).click();	
+    		//Find Add note title window
+    try{
+     	wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;${__P(addNoteInDropdown)}&quot;)));
+    	addnoteTitle =wait.until(ExpectedConditions.elementToBeClickable(By.xpath(&quot;${__P(addNoteInDropdown)}&quot;)));	
+    	addnoteTitle.click();
+    	WebElement addnoteTitle = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;${__P(addNoteTitleWindow)}&quot;)));
+    }catch(Exception e){
+         WDS.log.info(&quot;Rename Step title window don&apos;t get displayed &quot;);
+    	}	//Write something in text area
+    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;${__P(textAreaAddNote)}&quot;))).sendKeys(new String[] {&quot;Only Top 100 rows are displayed to test the data validity&quot;});
+    		//click on done button
+    
+    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;${__P(doneInAddNote)}&quot;)));
+    start=LocalDateTime.now();
+    ele=wait.until(ExpectedConditions.elementToBeClickable(By.xpath(&quot;${__P(doneInAddNote)}&quot;)));
+    start=LocalDateTime.now();
+    ele.click();	
+    try{
+         WebElement moreNote =wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;${__P(moreIcon)}&quot;)));
+    	end=LocalDateTime.now();
+	Long minutesBetween=ChronoUnit.MILLIS.between(start,end);
+	vars.put(&quot;Noteadded&quot;,String.valueOf(minutesBetween));
+    String note =moreNote.getAttribute(&quot;uib-tooltip&quot;);//.toString();
+    		WDS.log.info(&quot;Added note is : &quot;+note);
+    
+    		WDS.log.info(&quot;-----Top/Bottom rule Rename test started------&quot;);
+    }catch(Exception e)
+    {
+        WDS.log.info(&quot;added note is not present&quot;);
+        WDS.log.info(&quot;Login: Noteadded = NoNote&quot;);
+    }
+}catch(Exception e)
+{
+	try {
+           InetAddress ipAddr = InetAddress.getLocalHost();
+           ip= String.valueOf(ipAddr.getHostAddress());
+            } catch (UnknownHostException ex) {
+                ex.printStackTrace();
+            }
+    File src= ((TakesScreenshot)WDS.browser).getScreenshotAs(OutputType.FILE);
+    try {
+     // now copy the  screenshot to desired location using copyFile //method
+        FileUtils.copyFile(src, new File(&quot;Reporting/&quot;+ip+&quot;NewViewTest_upload&quot;+vars.get(&quot;Itr&quot;)+&quot;i&quot;+vars.get(&quot;usr&quot;)+&quot;u&quot;+&quot;.png&quot;));
+    }
+    catch (IOException e)
+     {
+       WDS.log.info(&quot;something wrong&quot;);
+     }
+    }
+try{
+    action.moveToElement(wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;${__P(topBottomDropdownPipeline)}&quot;)))).build().perform();
+    action.moveToElement(wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;${__P(topBottomDropdownPipeline)}&quot;)))).click().build().perform();
+    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;//a/span[@class=&apos;menu-icon current-menu&apos;]&quot;)));
+    wait.until(ExpectedConditions.elementToBeClickable(By.xpath(&quot;//a/span[@class=&apos;menu-icon current-menu&apos;]&quot;))).click();	
+    		//Find Rename In pipeline	
+    		//Click on rename
+     	wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;${__P(renameInTopBottomDrop)}&quot;)));
+    	RenameTitle =wait.until(ExpectedConditions.elementToBeClickable(By.xpath(&quot;${__P(renameInTopBottomDrop)}&quot;)));	
+    start=LocalDateTime.now();
+    RenameTitle.click();	
+    		//Find Rename title window
+    try{
+    	WebElement renameTitle = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;${__P(renameTitleTopBottom)}&quot;)));
+        end=LocalDateTime.now();
+    	Long minutesBetween=ChronoUnit.MILLIS.between(start,end);
+    	vars.put(&quot;RenameTitle&quot;,String.valueOf(minutesBetween));
+    }catch(Exception e){
+    		WDS.log.info(&quot;Rename Step title window don&apos;t get displayed &quot;);
+    WDS.log.info(&quot;Login: RenameTitle = NoTitleRename&quot;);
+    }
+    
+    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;${__P(renameInputTopBottom)}&quot;))).sendKeys(new String[] {&quot;TopRowsInPipeline&quot;});
+    		//click on rename button
+    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;${__P(doneInAddNote)}&quot;)));
+    ele=wait.until(ExpectedConditions.elementToBeClickable(By.xpath(&quot;${__P(doneInAddNote)}&quot;)));
+    start=LocalDateTime.now();
+    ele.click();
+    
+    try{
+         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;${__P(renamedNameInPipeline)}&quot;)));
+        end=LocalDateTime.now();
+    	Long minutesBetween=ChronoUnit.MILLIS.between(start,end);
+    	vars.put(&quot;Renamerule&quot;,String.valueOf(minutesBetween));
+    		WDS.log.info(&quot;Top/Bottom rule SuccessFully Renamed&quot;);
+    
+    		WDS.log.info(&quot;-----Top/Bottom rule deletion test started------&quot;);
+    }catch(Exception e)
+    {
+        WDS.log.info(&quot;Login: Renamerule= NoruleRename&quot;);
+       WDS.log.info(&quot;Top/bottom rule not renamed&quot;);
+    }
+}catch(Exception e)
+{
+	try {
+           InetAddress ipAddr = InetAddress.getLocalHost();
+           ip= String.valueOf(ipAddr.getHostAddress());
+            } catch (UnknownHostException ex) {
+                ex.printStackTrace();
+            }
+    File src= ((TakesScreenshot)WDS.browser).getScreenshotAs(OutputType.FILE);
+    try {
+     // now copy the  screenshot to desired location using copyFile //method
+        FileUtils.copyFile(src, new File(&quot;Reporting/&quot;+ip+&quot;NewViewTest_upload&quot;+vars.get(&quot;Itr&quot;)+&quot;i&quot;+vars.get(&quot;usr&quot;)+&quot;u&quot;+&quot;.png&quot;));
+    }
+    catch (IOException e)
+     {
+       WDS.log.info(&quot;something wrong&quot;);
+     }
+ }
+ 
+try{
+    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;${__P(renamedNameInPipeline)}&quot;)));
+    action.moveToElement(wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;${__P(renamedNameInPipeline)}&quot;)))).click().build().perform();
+    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;//a/span[@class=&apos;menu-icon current-menu&apos;]&quot;)));
+    wait.until(ExpectedConditions.elementToBeClickable(By.xpath(&quot;//a/span[@class=&apos;menu-icon current-menu&apos;]&quot;))).click();	
+     	wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;${__P(topBottomupdatedDropdown)}&quot;)));
+    	WebElement deleteInDropDown2= wait.until(ExpectedConditions.elementToBeClickable(By.xpath(&quot;${__P(topBottomupdatedDropdown)}&quot;)));	
+    		deleteInDropDown2.click();
+    try{
+    		WebElement deleteTaskTitle2 =wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;${__P(deletetaskTitle)}&quot;)));
+    }catch(Exception e)
+    {
+    WDS.log.info(&quot;Delete task window don&apos;t get opened&quot;);
+    }
+    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;${__P(deleteButtonInWindow)}&quot;)));
+    element=wait.until(ExpectedConditions.elementToBeClickable(By.xpath(&quot;${__P(deleteButtonInWindow)}&quot;)));
+    start=LocalDateTime.now();
+    element.click();
+    
+    	WebElement deleteDSMsg=	 wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;${__P(deleteMsgOnTop)}&quot;)));
+    	String Msg =deleteDSMsg.getText().toString();
+    	WDS.log.info(Msg);
+    	WDS.log.info(&quot;Rule deleted from pipeline&quot;);
+    	end=LocalDateTime.now();
+    	Long minutesBetween=ChronoUnit.MILLIS.between(start,end);
+    	vars.put(&quot;RuleDeletion&quot;,String.valueOf(minutesBetween));
+}catch(Exception e)
+{
+	try {
+           InetAddress ipAddr = InetAddress.getLocalHost();
+           ip= String.valueOf(ipAddr.getHostAddress());
+            } catch (UnknownHostException ex) {
+                ex.printStackTrace();
+            }
+    File src= ((TakesScreenshot)WDS.browser).getScreenshotAs(OutputType.FILE);
+    try {
+     // now copy the  screenshot to desired location using copyFile //method
+        FileUtils.copyFile(src, new File(&quot;Reporting/&quot;+ip+&quot;NewViewTest_upload&quot;+vars.get(&quot;Itr&quot;)+&quot;i&quot;+vars.get(&quot;usr&quot;)+&quot;u&quot;+&quot;.png&quot;));
+    }
+    catch (IOException e)
+     {
+       WDS.log.info(&quot;something wrong&quot;);
+     }
+}
+
+try{
+    //User is trying to logout from the application
+    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;${__P(cornerSettingMenu)}&quot;))).click();
+    logout=wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;${__P(logoutButtonId)}&quot;)));
+    start=LocalDateTime.now();
+    logout.click();
+    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;//div/figure[@class=&apos;logo-mammoth text-hide&apos;]&quot;)));
+    end=LocalDateTime.now();
+    Long minutesBetween=ChronoUnit.MILLIS.between(start,end);
+    vars.put(&quot;logout&quot;,String.valueOf(minutesBetween));
+    WDS.log.info(vars.get(&quot;logout&quot;));
+ }
+  catch(Exception e)
+ {
+        //log.info(&quot;Exception is : &quot; +e);
+        try {
+               InetAddress ipAddr = InetAddress.getLocalHost();
+               ip= String.valueOf(ipAddr.getHostAddress());
+                } catch (UnknownHostException ex) {
+                    ex.printStackTrace();
+                }
+        File src= ((TakesScreenshot)WDS.browser).getScreenshotAs(OutputType.FILE);
+        try {
+         // now copy the  screenshot to desired location using copyFile //method
+            FileUtils.copyFile(src, new File(&quot;Reporting/&quot;+ip+&quot;SanityFileupload_upload&quot;+vars.get(&quot;Itr&quot;)+&quot;i&quot;+vars.get(&quot;usr&quot;)+&quot;u&quot;+&quot;.png&quot;));
+        }
+        catch (IOException e)
+         {
+           WDS.log.info(&quot;something wrong&quot;);
+         }
+}
+ finally{
+
+        try {
+           InetAddress ipAddr = InetAddress.getLocalHost();
+          vars.put(&quot;ip&quot;,String.valueOf(ipAddr.getHostAddress()));
+
+            } catch (UnknownHostException ex) {
+                ex.printStackTrace();
+            }
+    EndTime=LocalDateTime.now();
+    f = new FileOutputStream(&quot;TimestampsFolder/Timestamp_TopBottumRenameDelete_&quot;+vars.get(&quot;ip&quot;)+&quot;.txt&quot;,true); 
+    p = new PrintStream(f);
+    WDS.log.info(&quot; EndTime = &quot;+EndTime);
+    WDS.sampleResult.sampleEnd();
+    WDS.log.info(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: Overlay = &quot;+vars.get(&quot;overlay&quot;));
+    p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: Overlay = &quot;+vars.get(&quot;overlay&quot;));
+    WDS.log.info(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: login = &quot;+vars.get(&quot;login&quot;));
+    p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: login = &quot;+vars.get(&quot;login&quot;));
+    WDS.log.info(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: Fileupload = &quot;+vars.get(&quot;Fileupload&quot;));
+    p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: Fileupload = &quot;+vars.get(&quot;Fileupload&quot;));
+    WDS.log.info(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: NewWindow = &quot;+vars.get(&quot;NewWindow&quot;));
+    p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: NewWindow = &quot;+vars.get(&quot;NewWindow&quot;));
+    WDS.log.info(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: Addtopbottom = &quot;+vars.get(&quot;Addtopbottom&quot;));
+    p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: Addtopbottom = &quot;+vars.get(&quot;Addtopbottom&quot;));
+    WDS.log.info(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: Noteadded = &quot;+vars.get(&quot;Noteadded&quot;));
+    p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: Noteadded = &quot;+vars.get(&quot;Noteadded&quot;));
+    WDS.log.info(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: RenameTitle = &quot;+vars.get(&quot;RenameTitle&quot;));
+    p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: RenameTitle = &quot;+vars.get(&quot;RenameTitle&quot;));
+    WDS.log.info(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: Renamerule = &quot;+vars.get(&quot;Renamerule&quot;));
+    p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: Renamerule = &quot;+vars.get(&quot;Renamerule&quot;));
+    WDS.log.info(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: RuleDeletion = &quot;+vars.get(&quot;RuleDeletion&quot;));
+    p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: RuleDeletion = &quot;+vars.get(&quot;RuleDeletion&quot;));
+    WDS.log.info(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: logout = &quot;+vars.get(&quot;logout&quot;));
+    p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: logout = &quot;+vars.get(&quot;logout&quot;));
+    WDS.log.info(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: startTime = &quot;+vars.get(&quot;StartTime&quot;));
+    WDS.log.info(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: EndTime = &quot;+EndTime);
+    p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: startTime = &quot;+vars.get(&quot;StartTime&quot;));
+    p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: EndTime = &quot;+EndTime);
+    LocalDateTime StartTime = LocalDateTime.parse(vars.get(&quot;StartTime&quot;));
+    Long minutesBetween=ChronoUnit.MILLIS.between(StartTime,EndTime);
+    p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: TotalTime = &quot;+minutesBetween);
+    WDS.log.info(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: TotalTime = &quot;+minutesBetween);
+
+    p.close();
+ }</stringProp>
+            <stringProp name="WebDriverSampler.parameters"></stringProp>
+            <stringProp name="WebDriverSampler.language">beanshell</stringProp>
+          </com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler>
+          <hashTree/>
+        </hashTree>
+      </hashTree>
+    </hashTree>
+    <WorkBench guiclass="WorkBenchGui" testclass="WorkBench" testname="WorkBench" enabled="true">
+      <boolProp name="WorkBench.save">true</boolProp>
+    </WorkBench>
+    <hashTree/>
+  </hashTree>
+</jmeterTestPlan>
