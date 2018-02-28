@@ -217,7 +217,7 @@ import java.util.List;&#xd;
 import org.openqa.selenium.support.ui.WebDriverWait;&#xd;
 import org.openqa.selenium.support.ui.ExpectedConditions;&#xd;
 &#xd;
-WebDriverWait wait= new WebDriverWait(WDS.browser,180);&#xd;
+WebDriverWait wait= new WebDriverWait(WDS.browser,200);&#xd;
 WDS.sampleResult.sampleStart();&#xd;
 try{&#xd;
 try{&#xd;
@@ -461,7 +461,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
-WebDriverWait wait= new WebDriverWait(WDS.browser,130);
+WebDriverWait wait= new WebDriverWait(WDS.browser,300);
 WDS.sampleResult.sampleStart();
 var vars = org.apache.jmeter.threads.JMeterContextService.getContext().getVariables();
 try{
@@ -596,7 +596,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
-WebDriverWait wait= new WebDriverWait(WDS.browser,130);
+WebDriverWait wait= new WebDriverWait(WDS.browser,300);
 WDS.sampleResult.sampleStart();
 
 var vars = org.apache.jmeter.threads.JMeterContextService.getContext().getVariables();
