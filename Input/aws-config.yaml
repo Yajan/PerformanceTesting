@@ -1,9 +1,17 @@
-aws-credencials:
-  - access-id:
-  - access-key:
-  - region-name:
-  - output-format:
-
 ami:
-  -image-id:
-  -security-group:
+    #Image details and region
+  - image-id: ami-01a09564
+  - security-group-id: sg-0c59ab67
+  
+instance:
+    #Number of Systems/Instances on which the execution should take place
+  - 1  
+
+operatingsystem:
+  - windows
+  
+instance-type:
+  - t2.micro
+  
+keyname:
+  - TestKeyOne
