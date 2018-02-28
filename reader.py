@@ -22,8 +22,8 @@ with open("Input/config.yaml", 'r') as stream:
     try:
         content = yaml.load(stream)
         urlList = content['gitUrl']
-        url = urlList[0]
-        print(url)
+        giturl = urlList[0]
+        print(giturl)
 
         jmeterVar = content['jmeterPath']
         jmeterPath = jmeterVar[0]
@@ -41,11 +41,8 @@ def timeoutmethod():
 
 
 def jmeter_exection(iteration, rampup, concurrency, filepath):
-    #t = Timer(timeout, timeoutmethod)
-
     os.chdir(jmeterPath)
-    #t.start()
-    os.system("jmeter.bat -n -t"+ filepath+" -r -Gusers="+str(concurrency)+" -GrampUp="+str(rampup)+" -Gcount="+str(iteration))
+    os.system("jmeter.bat -n -t"+ filepath+" -r -Gusers="+str(concurrency)+" -GrampUp="+str(rampup)+" -Gcount="+str(iteration)+" -Gduration="+str(timeout)+" -GUrl="+str(url))
     print("executed")
 
 
@@ -110,11 +107,6 @@ with open("Input/Input.yaml", 'r') as stream:
         if "url" in content:
             urlVar = content['url']
             url = urlVar[0]
-            with open(jmeterPath+'\\Inputdatas.csv', 'rb') as f:
-                reader = csv.reader(f)
-                for row in reader:
-                    row[0]=url
-                    print (', '.join(row))
 
         if "time-out" in content:
             timeout = content['time-out'][0]
