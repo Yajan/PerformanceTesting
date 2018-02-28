@@ -1,22 +1,26 @@
-#random:
-# - C:\Users\admin\PycharmProjects\BlazeMeterAPI\JMXfiles
-
 scripts:
-  - SanityLogin.jmx
+    #Name of the JMX files which needs to be executed
+  - SanityFileupload.jmx
 
 url:
+    #URL of the Application under test
   - https://app.mammoth.io/#/login
 
 browsers:
+    #Browser of execution
   - chrome
-
+  
 execution:
-  - concurrency: 2
-  - ramp-up: 1
-  - iteration: 2
+    #Default value is 1 1 1 respectively
+  - concurrency: 1
+  - ramp-up: 0
+  - iterations: 1
+  
 
 time-out:
-  - 10m
+    #Maximum Duration of the test execution in minutes after which the execution terminates
+  - 40m
 
-instance:
-  - 3
+cache:
+  - False
+
