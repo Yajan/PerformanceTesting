@@ -3,7 +3,8 @@ scripts:
   #- SanityFileupload.jmx
   #- AddCoumnBasisFunction.jmx
   #- ColumnSummaryTextNew.jmx
-  - DSDeletionTest.jmx
+  #- DSDeletionTest.jmx
+  - FileUploadPngTest.jmx
 
 url:
     #URL of the Application under test
