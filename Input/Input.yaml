@@ -5,9 +5,10 @@ scripts:
   #- ColumnSummaryTextNew.jmx
   #- DSDeletionTest.jmx
   #- FileUploadPngTest.jmx
-  - NewViewTest.jmx
+  #- NewViewTest.jmx
+  - URLupload.jmx
 
-url:
+url
     #URL of the Application under test
   - https://app.mammoth.io/#/login
 
