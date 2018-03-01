@@ -4,7 +4,8 @@ scripts:
   #- AddCoumnBasisFunction.jmx
   #- ColumnSummaryTextNew.jmx
   #- DSDeletionTest.jmx
-  - FileUploadPngTest.jmx
+  #- FileUploadPngTest.jmx
+  - NewViewTest.jmx
 
 url:
     #URL of the Application under test
