@@ -71,7 +71,7 @@ def file_upload(filepath,filename,foldername):
 
 def store_data():
     testname = socket.gethostbyname(socket.gethostname())
-    logpath = " C:/Users/Administrator/Documents/apache-jmeter-3.3/bin/TimestampsFolder"
+    logpath = "C:/Users/Administrator/Documents/apache-jmeter-3.3/bin/TimestampsFolder"
     onlyfiles = [f for f in listdir(logpath) if isfile(join(logpath, f))]
     #print(onlyfiles)
     create_folder(testname)
