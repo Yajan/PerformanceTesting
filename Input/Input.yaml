@@ -1,7 +1,8 @@
 scripts:
     #Name of the JMX files which needs to be executed
   #- SanityFileupload.jmx
-  - AddCoumnBasisFunction.jmx
+  #- AddCoumnBasisFunction.jmx
+  - ColumnSummaryTextNew.jmx
 
 url:
     #URL of the Application under test
