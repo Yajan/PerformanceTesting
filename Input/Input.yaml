@@ -2,7 +2,8 @@ scripts:
     #Name of the JMX files which needs to be executed
   #- SanityFileupload.jmx
   #- AddCoumnBasisFunction.jmx
-  - ColumnSummaryTextNew.jmx
+  #- ColumnSummaryTextNew.jmx
+  - DSDeletionTest.jmx
 
 url:
     #URL of the Application under test
