@@ -1,15 +1,15 @@
 scripts:
     #Name of the JMX files which needs to be executed
-  - SanityFileupload.jmx
-  - SanityLogin.jmx
+  #- SanityFileupload.jmx
+  #- SanityLogin.jmx
   #- ColumnSummaryTextNew.jmx
-  - FileUploadPngTest.jmx
+  #- FileUploadPngTest.jmx
   #- TopBottumRenameDelete.jmx
   - DSDeletionTest.jmx
   #- NewViewTest.jmx
   #- URLupload.jmx
   #- XSSFuploadScript.jmx
-  #- AddCoumnBasisFunction.jmx
+  - AddCoumnBasisFunction.jmx
 
 url:
     #URL of the Application under test
