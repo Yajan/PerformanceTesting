@@ -3,12 +3,12 @@ scripts:
   #- SanityFileupload.jmx
   #- SanityLogin.jmx
   #- ColumnSummaryTextNew.jmx
-  - NewViewTest.jmx
-  #- URLupload.jmx
-  - FileUploadPngTest.jmx
-  - TopBottumRenameDelete.jmx
-  #- XSSFuploadScript.jmx
-  #- DSDeletionTest.jmx
+  #- NewViewTest.jmx
+  - URLupload.jmx
+  #- FileUploadPngTest.jmx
+  #- TopBottumRenameDelete.jmx
+  - XSSFuploadScript.jmx
+  - DSDeletionTest.jmx
   #- AddCoumnBasisFunction.jmx
 
 url:
