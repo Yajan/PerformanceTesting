@@ -10,7 +10,7 @@ scripts:
   #- TopBottumRenameDelete.jmx
   - XSSFuploadScript.jmx
 
-url
+url:
     #URL of the Application under test
   - https://app.mammoth.io/#/login
 
