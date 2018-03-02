@@ -1,12 +1,12 @@
 scripts:
     #Name of the JMX files which needs to be executed
-  - SanityFileupload.jmx
-  - SanityLogin.jmx
-  - ColumnSummaryTextNew.jmx
-  #- NewViewTest.jmx
+  #- SanityFileupload.jmx
+  #- SanityLogin.jmx
+  #- ColumnSummaryTextNew.jmx
+  - NewViewTest.jmx
   #- URLupload.jmx
-  #- FileUploadPngTest.jmx
-  #- TopBottumRenameDelete.jmx
+  - FileUploadPngTest.jmx
+  - TopBottumRenameDelete.jmx
   #- XSSFuploadScript.jmx
   #- DSDeletionTest.jmx
   #- AddCoumnBasisFunction.jmx
@@ -21,9 +21,9 @@ browsers:
   
 execution:
     #Default value is 1 1 1 respectively
-  - concurrency: 1
+  - concurrency: 4
   - ramp-up: 0
-  - iterations: 1
+  - iterations: 2
   
 
 time-out:
