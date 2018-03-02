@@ -186,7 +186,7 @@ WDS.sampleResult.sampleEnd();&#xd;
     File src= ((TakesScreenshot)WDS.browser).getScreenshotAs(OutputType.FILE);&#xd;
     try {&#xd;
      // now copy the  screenshot to desired location using copyFile //method&#xd;
-        FileUtils.copyFile(src, new File(&quot;Reporting/&quot;+ip+&quot;summarytest_login&quot;+vars.get(&quot;Itr&quot;)+&quot;i&quot;+vars.get(&quot;usr&quot;)+&quot;u&quot;+&quot;.png&quot;));&#xd;
+        FileUtils.copyFile(src, new File(&quot;Reporting/&quot;+ip+&quot;Addcolumn_login&quot;+vars.get(&quot;Itr&quot;)+&quot;i&quot;+vars.get(&quot;usr&quot;)+&quot;u&quot;+&quot;.png&quot;));&#xd;
     }&#xd;
     catch (IOException e)&#xd;
      {&#xd;
@@ -250,7 +250,7 @@ file1.sendKeys(new String[] {filelocation});&#xd;
     File src= ((TakesScreenshot)WDS.browser).getScreenshotAs(OutputType.FILE);&#xd;
     try {&#xd;
      // now copy the  screenshot to desired location using copyFile //method&#xd;
-        FileUtils.copyFile(src, new File(&quot;Reporting/&quot;+ip+&quot;summarytest_loginupload&quot;+vars.get(&quot;Itr&quot;)+&quot;i&quot;+vars.get(&quot;usr&quot;)+&quot;u&quot;+&quot;.png&quot;));&#xd;
+        FileUtils.copyFile(src, new File(&quot;Reporting/&quot;+ip+&quot;Addcolumn_loginupload&quot;+vars.get(&quot;Itr&quot;)+&quot;i&quot;+vars.get(&quot;usr&quot;)+&quot;u&quot;+&quot;.png&quot;));&#xd;
     }&#xd;
     catch (IOException e)&#xd;
      {&#xd;
@@ -422,7 +422,7 @@ catch(Exception e)&#xd;
     File src= ((TakesScreenshot)WDS.browser).getScreenshotAs(OutputType.FILE);&#xd;
     try {&#xd;
      // now copy the  screenshot to desired location using copyFile //method&#xd;
-        FileUtils.copyFile(src, new File(&quot;Reporting/&quot;+ip+&quot;summarytest_upload&quot;+vars.get(&quot;Itr&quot;)+&quot;i&quot;+vars.get(&quot;usr&quot;)+&quot;u&quot;+&quot;.png&quot;));&#xd;
+        FileUtils.copyFile(src, new File(&quot;Reporting/&quot;+ip+&quot;Addcolumn_upload&quot;+vars.get(&quot;Itr&quot;)+&quot;i&quot;+vars.get(&quot;usr&quot;)+&quot;u&quot;+&quot;.png&quot;));&#xd;
     }&#xd;
     catch (IOException e)&#xd;
      {&#xd;
@@ -594,7 +594,7 @@ catch(Exception e)
     File src= ((TakesScreenshot)WDS.browser).getScreenshotAs(OutputType.FILE);
     try {
      // now copy the  screenshot to desired location using copyFile //method
-        FileUtils.copyFile(src, new File(&quot;Reporting/&quot;+ip+&quot;NewViewTest_login&quot;+vars.get(&quot;Itr&quot;)+&quot;i&quot;+vars.get(&quot;usr&quot;)+&quot;u&quot;+&quot;.png&quot;));
+        FileUtils.copyFile(src, new File(&quot;Reporting/&quot;+ip+&quot;Addcolumn_login&quot;+vars.get(&quot;Itr&quot;)+&quot;i&quot;+vars.get(&quot;usr&quot;)+&quot;u&quot;+&quot;.png&quot;));
     }
     catch (IOException e)
      {
