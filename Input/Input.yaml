@@ -5,11 +5,11 @@ scripts:
   #- ColumnSummaryTextNew.jmx
   #- FileUploadPngTest.jmx
   #- TopBottumRenameDelete.jmx
-  - DSDeletionTest.jmx
+  #- DSDeletionTest.jmx
   #- NewViewTest.jmx
-  #- URLupload.jmx
+  - URLupload.jmx
   #- XSSFuploadScript.jmx
-  - AddCoumnBasisFunction.jmx
+  #- AddCoumnBasisFunction.jmx
 
 url:
     #URL of the Application under test
@@ -21,7 +21,7 @@ browsers:
   
 execution:
     #Default value is 1 1 1 respectively
-  - concurrency: 3
+  - concurrency: 5
   - ramp-up: 1
   - iteration: 2
   
