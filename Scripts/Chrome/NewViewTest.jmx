@@ -677,8 +677,8 @@ finally{
     p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: Fileupload = &quot;+vars.get(&quot;Fileupload&quot;));
     WDS.log.info(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: NewWindow = &quot;+vars.get(&quot;NewWindow&quot;));
     p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: NewWindow = &quot;+vars.get(&quot;NewWindow&quot;));
-    WDS.log.info(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: ViewCreated = &quot;+vars.get(&quot;Fileupload&quot;));
-    p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: ViewCreated = &quot;+vars.get(&quot;Fileupload&quot;));
+    WDS.log.info(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: ViewCreated = &quot;+vars.get(&quot;ViewCreated&quot;));
+    p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: ViewCreated = &quot;+vars.get(&quot;ViewCreated&quot;));
     WDS.log.info(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: logout = &quot;+vars.get(&quot;logout&quot;));
     p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: logout = &quot;+vars.get(&quot;logout&quot;));
     p.println(&quot;Login: itrNO = &quot;+vars.get(&quot;Itr&quot;)+&quot;i: user = &quot;+vars.get(&quot;usr&quot;)+&quot;u: startTime = &quot;+vars.get(&quot;StartTime&quot;));
