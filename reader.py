@@ -92,7 +92,7 @@ with open("Input/Input.yaml", 'r') as stream:
                     rampup = var['ramp-up']
 
                     if(isinstance(rampup,int)):
-                        rampup =int(rampup)*60
+                        rampup =int(rampup)
 
                     elif "m" in rampup:
                         rampup = rampup.replace("m","")
