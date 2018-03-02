@@ -6,7 +6,8 @@ scripts:
   #- DSDeletionTest.jmx
   #- FileUploadPngTest.jmx
   #- NewViewTest.jmx
-  - URLupload.jmx
+  #- URLupload.jmx
+  - TopBottumRenameDelete.jmx
 
 url
     #URL of the Application under test
