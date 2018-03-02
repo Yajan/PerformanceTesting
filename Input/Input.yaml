@@ -4,11 +4,11 @@ scripts:
   #- SanityLogin.jmx
   #- ColumnSummaryTextNew.jmx
   #- NewViewTest.jmx
-  - URLupload.jmx
   #- FileUploadPngTest.jmx
   #- TopBottumRenameDelete.jmx
-  - XSSFuploadScript.jmx
   - DSDeletionTest.jmx
+  - URLupload.jmx
+  - XSSFuploadScript.jmx
   #- AddCoumnBasisFunction.jmx
 
 url:
