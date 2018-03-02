@@ -7,8 +7,8 @@ scripts:
   #- FileUploadPngTest.jmx
   #- TopBottumRenameDelete.jmx
   - DSDeletionTest.jmx
-  - URLupload.jmx
-  - XSSFuploadScript.jmx
+  #- URLupload.jmx
+  #- XSSFuploadScript.jmx
   #- AddCoumnBasisFunction.jmx
 
 url:
