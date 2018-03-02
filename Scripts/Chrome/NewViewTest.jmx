@@ -186,7 +186,7 @@ WDS.sampleResult.sampleEnd();&#xd;
     File src= ((TakesScreenshot)WDS.browser).getScreenshotAs(OutputType.FILE);&#xd;
     try {&#xd;
      // now copy the  screenshot to desired location using copyFile //method&#xd;
-        FileUtils.copyFile(src, new File(&quot;Reporting/&quot;+ip+&quot;summarytest_login&quot;+vars.get(&quot;Itr&quot;)+&quot;i&quot;+vars.get(&quot;usr&quot;)+&quot;u&quot;+&quot;.png&quot;));&#xd;
+        FileUtils.copyFile(src, new File(&quot;Reporting/&quot;+ip+&quot;NewViewTest_login&quot;+vars.get(&quot;Itr&quot;)+&quot;i&quot;+vars.get(&quot;usr&quot;)+&quot;u&quot;+&quot;.png&quot;));&#xd;
     }&#xd;
     catch (IOException e)&#xd;
      {&#xd;
