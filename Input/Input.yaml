@@ -23,7 +23,7 @@ execution:
     #Default value is 1 1 1 respectively
   - concurrency: 4
   - ramp-up: 0
-  - iterations: 2
+  - iteration: 2
   
 
 time-out:
