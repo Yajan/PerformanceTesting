@@ -110,7 +110,7 @@ startlogin=LocalDateTime.now();&#xd;
 login.click();&#xd;
 &#xd;
 //Overlay starts now&#xd;
-TEN_SECONDS=15*1000;&#xd;
+TEN_SECONDS=60*1000;&#xd;
 WDS.browser.manage().timeouts().implicitlyWait(6, TimeUnit.SECONDS); &#xd;
 oldTime=LocalDateTime.now();&#xd;
 start=LocalDateTime.now();&#xd;
