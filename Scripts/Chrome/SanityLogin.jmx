@@ -89,7 +89,7 @@ vars.put(&quot;StartTime&quot;,String.valueOf(LocalDateTime.now()));&#xd;
 //Launcing application&#xd;
 WDS.browser.get(&quot;${__P(Url,http://app.mammoth.io)}&quot;);&#xd;
 //application login process&#xd;
-try{&#xd;
+
 wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(&quot;${__P(uid)}&quot;))).sendKeys(new String[] {&quot;${__P(username)}&quot;});&#xd;
 wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(&quot;${__P(passid)}&quot;))).sendKeys(new String[] {&quot;${__P(password)}&quot;});&#xd;
 login=wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(&quot;${__P(signbuttonid)}&quot;)));&#xd;
@@ -97,6 +97,7 @@ startlogin=LocalDateTime.now();&#xd;
 login.click();&#xd;
 &#xd;
 //Overlay starts now&#xd;
+try{&#xd;
 TEN_SECONDS=60*1000;&#xd;
 WDS.browser.manage().timeouts().implicitlyWait(6, TimeUnit.SECONDS); &#xd;
 oldTime=LocalDateTime.now();&#xd;
