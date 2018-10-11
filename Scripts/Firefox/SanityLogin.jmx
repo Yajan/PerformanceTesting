@@ -68,6 +68,7 @@
           <com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler guiclass="com.googlecode.jmeter.plugins.webdriver.sampler.gui.WebDriverSamplerGui" testclass="com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler" testname="jp@gc - WebDriver Sampler" enabled="true">
             <stringProp name="WebDriverSampler.script">import org.apache.jmeter.services.FileServer;&#xd;
 import org.openqa.selenium;&#xd;
+import org.openqa.selenium.TakesScreenshot;&#xd;
 import java.time.temporal.ChronoUnit;&#xd;
 import java.time.format.DateTimeFormatter;  &#xd;
 import java.time.LocalDateTime;   &#xd;
